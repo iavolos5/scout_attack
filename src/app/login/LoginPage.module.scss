@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.form {
+  width: 300px;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 16px;
+  color: #888;
+}

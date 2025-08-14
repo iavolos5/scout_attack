@@ -3,48 +3,29 @@
 import { useRouter } from "next/navigation";
 import { Form, Input, Button, message } from "antd";
 import { loginUser } from "@/services/auth";
-import { useState } from "react";
+import styles from "./LoginPage.module.scss";
 
 export default function LoginPage() {
   const router = useRouter();
 
-  // const onFinish = async (values: { login: string; password: string }) => {
-  //   try {
-  //     // await loginUser(values.login, values.password);
-  //     message.success("Успешный вход");
-  //     router.push("/dashboard"); // без перезагрузки страницы
-  //   } catch (error) {
-  //     message.error((error as Error).message || "Ошибка входа");
-  //   }
-  // };
   const onFinish = async (values: { login: string; password: string }) => {
     try {
-      // Заглушка: ставим куку session_id
-      document.cookie = `session_id=dummy-session-id; path=/; max-age=${
-        7 * 24 * 60 * 60
-      }`;
-
-      message.success("Успешный вход");
-      router.push("/dashboard");
+      const { success } = await loginUser(values.login, values.password);
+      if (success === true) {
+        router.push("/dashboard");
+      }
     } catch (error) {
       message.error((error as Error).message || "Ошибка входа");
     }
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-      }}
-    >
+    <div className={styles.container}>
       <Form
         name="login"
         onFinish={onFinish}
         layout="vertical"
-        style={{ width: 300 }}
+        className={styles.form}
       >
         <Form.Item
           label="Логин"
@@ -67,9 +48,8 @@ export default function LoginPage() {
             Войти
           </Button>
         </Form.Item>
-        <div style={{ textAlign: "center", marginTop: 16, color: "#888" }}>
-          &copy; Scout Attack
-        </div>
+
+        <div className={styles.footer}>&copy; Scout Attack</div>
       </Form>
     </div>
   );
