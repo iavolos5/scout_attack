@@ -1,0 +1,74 @@
+.vulnerabilities {
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  min-width: 700px;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+
+  h2 {
+    margin-bottom: 16px;
+    color: #222;
+  }
+
+  .items {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .item {
+    flex: 1 1 120px;
+    text-align: center;
+
+    .count {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    .delta {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+
+  .critical {
+    color: #dc3545; /* Красный */
+  }
+
+  .high {
+    color: #e07b39; /* Оранжево-коричневый, можно выбрать другой яркий цвет */
+  }
+
+  .medium {
+    color: #ffc107; /* Желтый */
+  }
+
+  .low {
+    color: #28a745; /* Зеленый */
+  }
+
+  .deltaPositive {
+    color: #28a745;
+    font-weight: 700;
+  }
+
+  .deltaNegative {
+    color: #dc3545;
+    font-weight: 700;
+  }
+
+  .lastScan {
+    font-size: 14px;
+    color: #666;
+    text-align: right;
+  }
+}

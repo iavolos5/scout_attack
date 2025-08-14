@@ -1,0 +1,72 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f5f5f5;
+  font-family: Arial, sans-serif;
+  width: 100%;
+
+
+  section {
+    padding: 30px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+    max-width: 1200px;
+    /* Можно ограничить ширину для больших экранов */
+  }
+}
+
+
+
+.flexRow {
+  display: flex;
+  gap: 40px;
+  /* расстояние между диаграммой и списком */
+  align-items: flex-start;
+  /* выравнивание по верхнему краю */
+  flex-wrap: wrap;
+  /* чтобы на маленьких экранах переносились */
+}
+
+.list {
+  max-width: 400px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+
+
+.ip {
+  flex: 0 0 150px;
+  font-weight: 600;
+  user-select: none;
+}
+
+.barWrapper {
+  flex: 1;
+  background: #f0f0f0;
+  border-radius: 9999px;
+  overflow: hidden;
+  height: 24px;
+  margin-left: 12px;
+}
+
+.bar {
+  height: 100%;
+  color: white;
+  font-weight: 700;
+  text-align: center;
+  padding-right: 8px;
+  line-height: 24px;
+  user-select: none;
+}
+
+
+.main {
+  flex: 1;
+  padding: 20px;
+}
