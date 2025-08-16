@@ -1,17 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Form,
-  Input,
-  Button,
-  Switch,
-  Typography,
-  Space,
-  message,
-  Image,
-} from "antd";
+import { Typography, message } from "antd";
 import styles from "./ProfilePage.module.scss";
+import Profile from "../components/Profile.tsx/Profile";
+import TwoFactorAuth from "../components/TwoFactorAuth/TwoFactorAuth";
 
 const { Title } = Typography;
 
@@ -56,87 +49,18 @@ const ProfilePage: React.FC = () => {
       <Title level={2} className={styles.title}>
         Профиль
       </Title>
-
-      <Space direction="vertical" size="large" style={{ width: "100%" }}>
-        {/* Смена пароля */}
-        <div className={styles.formWrapper}>
-          <Form layout="vertical" onFinish={onPasswordChange}>
-            <Form.Item
-              label="Текущий пароль"
-              name="currentPassword"
-              rules={[{ required: true, message: "Введите текущий пароль" }]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item
-              label="Новый пароль"
-              name="newPassword"
-              rules={[{ required: true, message: "Введите новый пароль" }]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item
-              label="Подтверждение пароля"
-              name="confirmPassword"
-              dependencies={["newPassword"]}
-              rules={[
-                { required: true, message: "Подтвердите пароль" },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("newPassword") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(new Error("Пароли не совпадают"));
-                  },
-                }),
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={loadingPassword}
-                block
-              >
-                Сменить пароль
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
-
-        {/* Двухфакторная аутентификация */}
-        <div className={styles.twoFactorWrapper}>
-          <Space
-            direction="vertical"
-            size="middle"
-            className={styles.twoFactorSpace}
-          >
-            <div className={styles.twoFactorSwitchRow}>
-              <div>Двухфакторная аутентификация (Google Authenticator)</div>
-              <Switch
-                checked={!!qrCode}
-                loading={loading2FA}
-                onChange={onTwoFactorToggle}
-              />
-            </div>
-
-            {qrCode && (
-              <div className={styles.qrContainer}>
-                <Image src={qrCode} alt="QR Code" width={200} preview={false} />
-                <div className={styles.qrText}>
-                  Отсканируйте этот QR-код в Google Authenticator и введите код
-                  в подтверждении.
-                </div>
-              </div>
-            )}
-          </Space>
-        </div>
-      </Space>
+      <Profile
+        loadingPassword={loadingPassword}
+        loading2FA={loading2FA}
+        qrCode={qrCode}
+        onPasswordChange={onPasswordChange}
+        onTwoFactorToggle={onTwoFactorToggle}
+      />
+      <TwoFactorAuth
+        loading2FA={loading2FA}
+        qrCode={qrCode}
+        onTwoFactorToggle={onTwoFactorToggle}
+      />
     </div>
   );
 };

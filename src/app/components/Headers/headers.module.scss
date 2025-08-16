@@ -1,18 +1,54 @@
+/* Headers.module.scss */
+
+.title {
+  color: #fff !important;
+}
+
+.linkButton {
+  color: #fff;
+  font-weight: 500;
+  transition: all 0.3s;
+
+  &:hover {
+    color: #40a9ff; /* цвет при наведении */
+    background-color: transparent; /* чтобы не было серого фона */
+  }
+}
+
+.active {
+  color: #1890ff; /* цвет активной ссылки */
+}
+
 .header {
-  background: #222;
-  color: white;
-  padding: 10px 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  padding: 0 24px;
+  background-color: #001529;
+}
+
+.headerContent {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 705px;
+  gap: 205;
 }
 
-.header nav a {
-  color: white;
-  margin-left: 15px;
-  text-decoration: none;
+@media screen and (width < 768px) {
+  .header {
+    padding: 0 10px;
+  }
 }
 
-.header nav a:hover {
-  text-decoration: underline;
+@media screen and (width < 1200px) {
+  .header {
+    padding: 0 30px;
+  }
+}
+
+@media screen and (width < 1440px) {
+  .header {
+    padding: 0 60px;
+  }
 }

@@ -1,9 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import styles from "./headers.module.scss";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Layout, Row, Col, Space, Typography, Button, Grid } from "antd";
+import styles from "./Headers.module.scss";
+
+const { Header } = Layout;
+const { Title } = Typography;
+const { useBreakpoint } = Grid;
 
 const pageTitles: Record<string, string> = {
   "/dashboard": "Дашбоард",
@@ -14,38 +19,53 @@ const pageTitles: Record<string, string> = {
 
 const Headers: React.FC = () => {
   const path = usePathname();
+  const screens = useBreakpoint();
   const [authenticated, setAuthenticated] = useState(false);
 
-  // Пример: проверяем куку session
   useEffect(() => {
     const cookie = document.cookie
       .split("; ")
       .find((row) => row.startsWith("token="));
-    setAuthenticated(!!cookie);
+    setAuthenticated(!!!cookie);
   }, []);
 
   const title = pageTitles[path];
 
+  const links = Object.keys(pageTitles).filter((href) => {
+    if (path === "/login") {
+      return href === "/login";
+    }
+    if (authenticated) {
+      return href !== "/login";
+    }
+    return true;
+  });
+
   return (
-    <header className={styles.header}>
-      <h1>{title}</h1>
-      <nav>
-        {Object.keys(pageTitles).map((href) => {
-          if (href === "/login" && authenticated) {
-            return null;
-          }
-          return (
+    <Header className={styles.header}>
+      <Space
+        direction={screens.xs ? "vertical" : "horizontal"}
+        size="middle"
+        className={`${styles.headerContent}`}
+      >
+        <Title level={3} className={styles.title}>
+          {title}
+        </Title>
+        <Space size="middle">
+          {links.map((href) => (
             <Link
               key={href}
               href={href}
-              className={path === href ? styles.active : ""}
+              className={`${styles.linkButton} ${
+                path === href ? styles.active : ""
+              }`}
             >
               {pageTitles[href]}
             </Link>
-          );
-        })}
-      </nav>
-    </header>
+          ))}
+        </Space>
+      </Space>
+    </Header>
   );
 };
 
