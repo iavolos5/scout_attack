@@ -45,7 +45,7 @@ const ProfilePage: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.profile}>
       <Title level={2} className={styles.title}>
         Профиль
       </Title>
