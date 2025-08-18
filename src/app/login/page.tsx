@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Form, Input, Button, message } from "antd";
-import { loginUser } from "@/services/auth";
+import { loginUser } from "@/api/auth";
 import styles from "./LoginPage.module.scss";
 
 export default function LoginPage() {

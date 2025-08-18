@@ -1,0 +1,43 @@
+.reports {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f5f5f5;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  section {
+    padding: 30px;
+    margin: 0 auto;
+    width: 1200px;
+  }
+}
+
+
+
+
+.critical {
+  background: #ff4d4f;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-right: 5px;
+  display: inline-block;
+}
+
+.medium {
+  background: #fa8c16;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-right: 5px;
+  display: inline-block;
+}
+
+.low {
+  background: #52c41a;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-right: 5px;
+  display: inline-block;
+}

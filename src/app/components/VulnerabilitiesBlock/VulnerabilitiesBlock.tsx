@@ -7,10 +7,11 @@ type Vulnerability = {
   delta: string;
 };
 
-type Severity = "critical" | "high" | "medium" | "low";
-
 type VulnerabilitiesData = {
-  [key in Severity]: Vulnerability;
+  critical: Vulnerability;
+  high: Vulnerability;
+  medium: Vulnerability;
+  low: Vulnerability;
 };
 
 type Props = {
