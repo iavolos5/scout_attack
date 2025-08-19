@@ -1,24 +1,12 @@
 import React from "react";
 import styles from "./VulnerabilitiesBlock.module.scss";
 import VulnerabilityItem from "./VulnerabilityItem";
-
-type Vulnerability = {
-  count: number;
-  delta: string;
-};
-
-type VulnerabilitiesData = {
-  critical: Vulnerability;
-  high: Vulnerability;
-  medium: Vulnerability;
-  low: Vulnerability;
-};
+import { VulnerabilitiesData } from "@/types/dashboard.dto";
 
 type Props = {
   vulnerabilities: VulnerabilitiesData;
   lastScanDate: string;
 };
-
 // массив категорий
 const vulnerabilityLevels = [
   { label: "Критичные", key: "critical", colorClass: styles.critical },

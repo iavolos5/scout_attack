@@ -6,14 +6,17 @@ import styles from "./VulnerabilitiesPieChart.module.scss";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-type Props = {
+type VulnerabilitiesPieChartProps = {
   labels: string[];
   data: number[];
 };
 
 const COLORS = ["#dc3545", "#ffc107", "#28a745"]; // красный, желтый, зеленый
 
-const VulnerabilitiesPieChart: React.FC<Props> = ({ labels, data }) => {
+const VulnerabilitiesPieChart: React.FC<VulnerabilitiesPieChartProps> = ({
+  labels,
+  data,
+}) => {
   const chartData = {
     labels,
     datasets: [

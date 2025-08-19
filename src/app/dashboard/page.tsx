@@ -6,27 +6,9 @@ import VulnerabilitiesPieChart from "../components/VulnerabilitiesPieChart/Vulne
 import styles from "./DashboardPage.module.scss";
 import { fetchDashboardData } from "@/api/dashboard.api";
 import { Spin } from "antd";
+import { VulnerabilitiesData, DashboardData } from "@/types/dashboard.dto";
 
-type Vulnerability = {
-  count: number;
-  delta: string;
-};
 
-type VulnerabilitiesData = {
-  critical: Vulnerability;
-  high: Vulnerability;
-  medium: Vulnerability;
-  low: Vulnerability;
-};
-
-interface DashboardData {
-  lastScanDate: string;
-  topIPs: { ip: string; vulnerabilityCount: number }[];
-  vulnerabilities: Partial<VulnerabilitiesData>; // с API может прийти не всё
-  chartData: {
-    data: Record<string, string>;
-  };
-}
 
 // нормализация (подставляем дефолтные значения для отсутствующих полей)
 function normalizeVulnerabilities(

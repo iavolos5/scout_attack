@@ -8,22 +8,12 @@ import styles from "./ProfilePage.module.scss";
 import Profile from "../components/Profile.tsx/Profile";
 import ProfileInfoCard from "../components/Profile.tsx/ProfileInfoCard";
 import { fetchProfileData } from "@/api/profile.api";
+import { ProfileData } from "@/types/profile.dto";
 
 const { TabPane } = Tabs;
 
-interface Profile {
-  login: string;
-  email: string;
-  company_name: string;
-  must_change_password: boolean;
-  "2fa_enabled": boolean;
-  provided_ip: string[];
-  provided_host: string[];
-  provided_email: string[];
-}
-
 export default function ProfilePage() {
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadingPassword, setLoadingPassword] = useState(false);
   const [twoFAOpen, setTwoFAOpen] = useState(false);

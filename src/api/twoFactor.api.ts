@@ -1,14 +1,5 @@
 import { API_BASE } from "@/app/constants";
-
-export interface Setup2FAResponse {
-  success: boolean;
-  totp_secret?: string;
-  qrcode?: string;
-}
-
-export interface Confirm2FAResponse {
-  success: boolean;
-}
+import { Setup2FAResponse, Confirm2FAResponse } from "@/types/twoFactor";
 
 export async function setup2FA(password: string): Promise<Setup2FAResponse> {
   const res = await fetch(`${API_BASE}/setup-2fa`, {
