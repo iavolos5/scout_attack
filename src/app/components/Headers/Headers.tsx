@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Layout, Row, Col, Space, Typography, Button, Grid } from "antd";
+import { Layout, Space, Typography, Grid } from "antd";
 import styles from "./Headers.module.scss";
 
 const { Header } = Layout;
@@ -14,6 +14,7 @@ const pageTitles: Record<string, string> = {
   "/dashboard": "Дашбоард",
   "/reports": "Отчёты",
   "/profile": "Профиль",
+  "/email": "Email",
   "/login": "Вход",
 };
 

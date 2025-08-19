@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, Typography, Button } from "antd";
-import styles from "./ProfileInfoCard.module.scss";
 
 const { Title, Text } = Typography;
 
