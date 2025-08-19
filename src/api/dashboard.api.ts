@@ -1,4 +1,5 @@
-const API_BASE = "https://83.220.170.171";
+import { API_BASE } from "@/app/constants";
+
 export async function fetchDashboardData() {
   const res = await fetch(`${API_BASE}/dashboard`, {
     method: "GET",

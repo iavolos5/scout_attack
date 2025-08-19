@@ -1,6 +1,7 @@
+import { API_BASE } from "@/app/constants";
 import { CompareReportsResponse } from "@/types/Reports.dto";
 
-const API_BASE = "https://83.220.170.171";
+
 
 export async function fetchReportsData(): Promise<CompareReportsResponse> {
   const res = await fetch(`${API_BASE}/reports`, {

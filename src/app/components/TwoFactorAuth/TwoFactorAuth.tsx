@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Modal, Input, Button, Form, Typography, Spin } from "antd";
 import { App } from "antd";
 
+import { setup2FA, confirm2FA } from "@/api/twoFactor.api";
+
 const { Text } = Typography;
 
 interface Props {
@@ -11,6 +13,8 @@ interface Props {
   onClose: () => void;
   onSuccess: () => void;
 }
+
+const QR_CODE_API = "https://api.qrserver.com/v1/create-qr-code/";
 
 export default function TwoFactorAuth({ open, onClose, onSuccess }: Props) {
   const [loading, setLoading] = useState(false);
@@ -23,16 +27,10 @@ export default function TwoFactorAuth({ open, onClose, onSuccess }: Props) {
   const handleSetup = async (password: string) => {
     setLoading(true);
     try {
-      const res = await fetch("https://83.220.170.171/setup-2fa", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ password }),
-      });
-      const data = await res.json();
+      const data = await setup2FA(password);
       if (data.success) {
-        setQrCode(data.qrcode);
-        setSecret(data.totp_secret);
+        setQrCode(data.qrcode ?? null);
+        setSecret(data.totp_secret ?? null);
         setStep("confirm");
         message.success("QR-код сгенерирован, отсканируйте его в приложении");
       } else {
@@ -49,13 +47,7 @@ export default function TwoFactorAuth({ open, onClose, onSuccess }: Props) {
   const handleConfirm = async (code: string) => {
     setLoading(true);
     try {
-      const res = await fetch("https://83.220.170.171/confirm-2fa", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ totp_code: code }),
-      });
-      const data = await res.json();
+      const data = await confirm2FA(code);
       if (data.success) {
         message.success("2FA успешно активирована");
         onSuccess();
@@ -105,7 +97,7 @@ export default function TwoFactorAuth({ open, onClose, onSuccess }: Props) {
           {qrCode && (
             <div style={{ textAlign: "center", marginBottom: "1rem" }}>
               <img
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+                src={`${QR_CODE_API}?size=200x200&data=${encodeURIComponent(
                   qrCode
                 )}`}
               />
