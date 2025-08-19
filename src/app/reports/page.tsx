@@ -6,7 +6,7 @@ import LastScanCard from "../components/LastScanCard/LastScanCard";
 import PreviousScansCard from "../components/PreviousScansCard/PreviousScansCard";
 import HostVulnerabilitiesCard from "../components/HostsVulnerabilitiesCard/HostsVulnerabilitiesCard";
 import { CompareReportsResponse } from "@/types/Reports.dto";
-import { fetchReports, compareReports } from "@/api/reports.api";
+import { fetchReportsData, compareReports } from "@/api/reports.api";
 
 const { Title } = Typography;
 
@@ -20,7 +20,7 @@ export default function ReportsPage() {
 
   async function loadReports() {
     try {
-      const reportsData = await fetchReports();
+      const reportsData = await fetchReportsData();
       setData(reportsData);
     } catch (err) {
       console.error(err);

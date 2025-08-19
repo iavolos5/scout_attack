@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Form, Input, Button, App, Spin } from "antd";
 import styles from "./LoginPage.module.scss";
-import { loginUser, verify2FA } from "@/api/auth.api";
+import { fetchLoginUser, verify2FA } from "@/api/auth.api";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function LoginPage() {
   const onFinishLogin = async (values: { login: string; password: string }) => {
     try {
       setLoading(true);
-      const res = await loginUser(values.login, values.password);
+      const res = await fetchLoginUser(values.login, values.password);
 
       if (res.require2fa) {
         setRequire2fa(true);

@@ -7,6 +7,7 @@ import TwoFactorAuth from "../components/TwoFactorAuth/TwoFactorAuth";
 import styles from "./ProfilePage.module.scss";
 import Profile from "../components/Profile.tsx/Profile";
 import ProfileInfoCard from "../components/Profile.tsx/ProfileInfoCard";
+import { fetchProfileData } from "@/api/profile.api";
 
 const { TabPane } = Tabs;
 
@@ -21,52 +22,43 @@ interface Profile {
   provided_email: string[];
 }
 
-interface PasswordChange {
-  currentPassword: string;
-  newPassword: string;
-  confirmPassword?: string;
-}
-
-const MOCK_CURRENT_PASSWORD = "current_password_123";
-
 export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadingPassword, setLoadingPassword] = useState(false);
-  const [loading2FA, setLoading2FA] = useState(false);
-  const [qrCode, setQrCode] = useState<string | null>(null);
   const [twoFAOpen, setTwoFAOpen] = useState(false);
 
   const { message } = App.useApp();
 
   useEffect(() => {
-    fetchProfile();
+    loadProfile();
   }, []);
 
-  const fetchProfile = async () => {
+  const loadProfile = async () => {
     try {
-      const res = await fetch("https://83.220.170.171/profile", {
-        credentials: "include",
-      });
-      const data = await res.json();
+      const data = await fetchProfileData();
       setProfile(data);
     } catch (err) {
       console.error(err);
+      message.error("Не удалось загрузить профиль");
     } finally {
       setLoading(false);
     }
   };
 
-  const onPasswordChange = async (values: PasswordChange) => {
+  const onPasswordChange = async (values: {
+    currentPassword: string;
+    newPassword: string;
+  }) => {
     setLoadingPassword(true);
-    setTimeout(() => {
-      if (values.currentPassword !== MOCK_CURRENT_PASSWORD) {
-        message.error("Текущий пароль неверен");
-      } else {
-        message.success("Пароль успешно изменён");
-      }
+    try {
+      // await changePassword(values.currentPassword, values.newPassword);
+      message.success("Пароль успешно изменён");
+    } catch (err) {
+      message.error("Ошибка смены пароля");
+    } finally {
       setLoadingPassword(false);
-    }, 900);
+    }
   };
 
   if (loading) {
@@ -129,7 +121,7 @@ export default function ProfilePage() {
         onClose={() => setTwoFAOpen(false)}
         onSuccess={() => {
           message.success("2FA включена");
-          fetchProfile(); // обновляем профиль
+          loadProfile(); // обновляем профиль
         }}
       />
     </div>

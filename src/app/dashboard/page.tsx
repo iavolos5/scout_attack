@@ -4,7 +4,7 @@ import TopIPsList from "../components/TopIPsList/TopIPsList";
 import VulnerabilitiesBlock from "../components/VulnerabilitiesBlock/VulnerabilitiesBlock";
 import VulnerabilitiesPieChart from "../components/VulnerabilitiesPieChart/VulnerabilitiesPieChart";
 import styles from "./DashboardPage.module.scss";
-import { getDashboardData } from "@/api/dashboard.api";
+import { fetchDashboardData } from "@/api/dashboard.api";
 import { Spin } from "antd";
 
 type Vulnerability = {
@@ -45,7 +45,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getDashboardData()
+    fetchDashboardData()
       .then((res) => {
         res.vulnerabilities = normalizeVulnerabilities(res.vulnerabilities);
         setData(res);

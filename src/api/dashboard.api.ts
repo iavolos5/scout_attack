@@ -1,5 +1,6 @@
-export async function getDashboardData() {
-  const res = await fetch("https://83.220.170.171/dashboard", {
+const API_BASE = "https://83.220.170.171";
+export async function fetchDashboardData() {
+  const res = await fetch(`${API_BASE}/dashboard`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
