@@ -4,22 +4,16 @@ import styles from "./Profile.module.scss";
 
 type ProfileProps = {
   loadingPassword: boolean;
-  loading2FA: boolean;
-  qrCode: string | null;
   onPasswordChange: (values: {
     currentPassword: string;
     newPassword: string;
     confirmPassword?: string;
   }) => void;
-  onTwoFactorToggle: (checked: boolean) => void;
 };
 
 const Profile: React.FC<ProfileProps> = ({
   loadingPassword,
-  loading2FA,
-  qrCode,
   onPasswordChange,
-  onTwoFactorToggle,
 }) => {
   const confirmPasswordRules = [
     { required: true, message: "Подтвердите пароль" },
@@ -34,7 +28,7 @@ const Profile: React.FC<ProfileProps> = ({
   ];
 
   return (
-    <Space direction="vertical" size="large" style={{ width: "100%" }}>
+    <Space direction="vertical" style={{ width: "100%" }}>
       {/* Смена пароля */}
       <div className={styles.formWrapper}>
         <Form layout="vertical" onFinish={onPasswordChange}>
@@ -75,8 +69,6 @@ const Profile: React.FC<ProfileProps> = ({
           </Form.Item>
         </Form>
       </div>
-
-
     </Space>
   );
 };

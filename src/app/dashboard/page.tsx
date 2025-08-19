@@ -4,7 +4,8 @@ import TopIPsList from "../components/TopIPsList/TopIPsList";
 import VulnerabilitiesBlock from "../components/VulnerabilitiesBlock/VulnerabilitiesBlock";
 import VulnerabilitiesPieChart from "../components/VulnerabilitiesPieChart/VulnerabilitiesPieChart";
 import styles from "./DashboardPage.module.scss";
-import { getDashboardData } from "@/api/dashboard";
+import { getDashboardData } from "@/api/dashboard.api";
+import { Spin } from "antd";
 
 type Vulnerability = {
   count: number;
@@ -52,7 +53,13 @@ export default function DashboardPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div>Загрузка...</div>;
+  if (loading) {
+    return (
+      <div className={styles.dashboard}>
+        <Spin size="large" className={styles.spin} />
+      </div>
+    );
+  }
   if (!data) return <div>Ошибка загрузки данных</div>;
 
   const chartLabels = Object.keys(data.chartData.data);

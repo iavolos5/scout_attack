@@ -7,12 +7,9 @@ export default async function middleware(request: NextRequest) {
 
   // try {
   //   // Делаем запрос к бэку с текущими куками
-  //   const res = await fetch("http://83.220.170.171/auth/check", {
+  //   const res = await fetch("https://83.220.170.171/auth/check", {
   //     method: "GET",
-  //     headers: {
-  //       // Передаём куку из запроса middleware
-  //       cookie: request.headers.get("cookie") || "",
-  //     },
+  //     credentials: "include",
   //     cache: "no-store",
   //   });
 
