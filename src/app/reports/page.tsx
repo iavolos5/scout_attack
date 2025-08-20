@@ -17,7 +17,7 @@ const { Title } = Typography;
 
 export default function ReportsPage() {
   const [data, setData] = useState<CompareReportsResponse | null>(null);
-  const [selectedReport, setSelectedReport] = useState<number | null>(null);
+  const [selectedReports, setSelectedReports] = useState<number[]>([]);
 
   useEffect(() => {
     loadReports();
@@ -32,10 +32,10 @@ export default function ReportsPage() {
     }
   }
 
-  async function handleCompare(secondId: number) {
+  async function handleCompare(firstId: number, secondId: number) {
     if (!data) return;
     try {
-      const result = await compareReports(data.last_report.id, secondId);
+      const result = await compareReports(firstId, secondId);
       setData((prev) =>
         prev ? { ...prev, compare_reports: result.compare_reports } : prev
       );
@@ -99,9 +99,9 @@ export default function ReportsPage() {
         <LastScanCard data={data} />
         <PreviousScansCard
           data={data}
-          selectedReport={selectedReport}
-          setSelectedReport={setSelectedReport}
-          onCompare={handleCompare}
+          selectedReports={selectedReports}
+          setSelectedReports={setSelectedReports}
+          onCompare={(firstId, secondId) => handleCompare(firstId, secondId)}
         />
         <HostVulnerabilitiesCard data={data} getCritColor={getCritColor} />
       </section>

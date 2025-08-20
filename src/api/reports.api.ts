@@ -11,11 +11,8 @@ export async function fetchReportsData(): Promise<CompareReportsResponse> {
   return res.json();
 }
 
-export async function compareReports(
-  firstId: number,
-  secondId: number
-): Promise<{ compare_reports: CompareReportsResponse["compare_reports"] }> {
-  const url = `${API_BASE}/compareReports?FirstReportId=${firstId}&SecondReportId=${secondId}`;
+export async function compareReports(firstId: number, secondId: number) {
+  const url = `${API_BASE}/reports/compare?firstReportId=${firstId}&secondReportId=${secondId}`;
   const res = await fetch(url, { credentials: "include" });
   if (!res.ok) {
     throw new Error(`Ошибка сравнения отчётов: ${res.status}`);

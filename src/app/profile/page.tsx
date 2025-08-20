@@ -62,7 +62,7 @@ export default function ProfilePage() {
       label: "IP-адреса",
       children: (
         <List
-          dataSource={profile.provided_ip}
+          dataSource={profile.provided_ip || []}
           renderItem={(item) => <List.Item>{item}</List.Item>}
         />
       ),
@@ -72,7 +72,7 @@ export default function ProfilePage() {
       label: "Хосты",
       children: (
         <List
-          dataSource={profile.provided_host}
+          dataSource={profile.provided_host || []}
           renderItem={(item) => <List.Item>{item}</List.Item>}
         />
       ),
@@ -82,7 +82,7 @@ export default function ProfilePage() {
       label: "Email",
       children: (
         <List
-          dataSource={profile.provided_email}
+          dataSource={profile.provided_email || []}
           renderItem={(item) => <List.Item>{item}</List.Item>}
         />
       ),
