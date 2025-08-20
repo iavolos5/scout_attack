@@ -39,7 +39,7 @@ const VulnerabilitiesBlock: React.FC<Props> = ({
     <div>
       <h2>Выявленные уязвимости по хостам</h2>
       <section className={styles.vulnerabilities}>
-        <h2>Уязвимости</h2>
+        <h3>Уязвимости</h3>
         <div className={styles.items}>{vulnerabilityLevelsComponents}</div>
         <div className={styles.lastScan}>
           Последнее сканирование: {lastScanDate}

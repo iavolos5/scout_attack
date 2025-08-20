@@ -8,8 +8,6 @@ import { fetchDashboardData } from "@/api/dashboard.api";
 import { Spin } from "antd";
 import { VulnerabilitiesData, DashboardData } from "@/types/dashboard.dto";
 
-
-
 // нормализация (подставляем дефолтные значения для отсутствующих полей)
 function normalizeVulnerabilities(
   vulns: Partial<VulnerabilitiesData>

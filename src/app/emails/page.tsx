@@ -1,28 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Table, Input, Tag, Spin, Select } from "antd";
+import { Table, Input, Tag, Spin, Select, message } from "antd";
 import styles from "./EmailsPage.module.scss";
 import { fetchEmails } from "@/api/emails.api";
+import { EmailItem, SearchLoc, Leak } from "@/types/emails.dto";
 
 const { Search } = Input;
-const { Option } = Select;
-
-interface SearchLoc {
-  loc_name: string;
-}
-
-interface Leak {
-  leak_name: string;
-}
-
-interface EmailItem {
-  email: string;
-  compromised_flg: boolean;
-  is_latest_only: boolean;
-  search_locs: SearchLoc[];
-  leaks: Leak[];
-}
 
 export default function EmailsPage() {
   const [emails, setEmails] = useState<EmailItem[]>([]);
@@ -66,7 +50,7 @@ export default function EmailsPage() {
   useEffect(() => {
     const handler = setTimeout(() => {
       filterEmails();
-    }, 1000);
+    }, 500);
 
     return () => {
       clearTimeout(handler);
@@ -81,25 +65,6 @@ export default function EmailsPage() {
       render: (_: any, record: EmailItem) => (
         <span style={{ color: record.compromised_flg ? "red" : undefined }}>
           {record.email} {record.is_latest_only && <Tag color="blue">New</Tag>}
-        </span>
-      ),
-    },
-    {
-      title: "Статус",
-      dataIndex: "compromised_flg",
-      key: "status",
-      render: (compromised: boolean) => (
-        <span className="compromised">
-          <span
-            style={{
-              width: 10,
-              height: 10,
-              borderRadius: "50%",
-              backgroundColor: compromised ? "red" : "green",
-              display: "inline-block",
-            }}
-          />
-          {compromised ? "Скомпрометирован" : "Безопасный"}
         </span>
       ),
     },
@@ -119,14 +84,6 @@ export default function EmailsPage() {
     },
   ];
 
-  const filters = Array.from(
-    new Set(emails.flatMap((e) => e.search_locs.map((loc) => loc.loc_name)))
-  ).map((loc) => (
-    <Option key={loc} value={loc}>
-      {loc}
-    </Option>
-  ));
-
   if (loading) return <Spin size="large" />;
 
   return (
@@ -141,14 +98,6 @@ export default function EmailsPage() {
             style={{ width: 300 }}
             allowClear
           />
-          <Select
-            placeholder="Фильтр по месту"
-            onChange={(value) => setLocFilter(value)}
-            style={{ width: 250 }}
-            allowClear
-          >
-            {filters}
-          </Select>
         </div>
 
         <Table

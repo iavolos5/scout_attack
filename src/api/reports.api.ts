@@ -22,3 +22,13 @@ export async function compareReports(
   }
   return res.json();
 }
+
+export async function downloadReport(): Promise<Blob> {
+  const res = await fetch(`${API_BASE}/reports/pdf`, {
+    credentials: "include",
+  });
+
+  if (!res.ok) throw new Error("Ошибка при скачивании отчёта");
+
+  return res.blob();
+}
