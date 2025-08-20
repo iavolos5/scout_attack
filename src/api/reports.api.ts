@@ -1,8 +1,6 @@
 import { API_BASE } from "@/app/constants";
 import { CompareReportsResponse } from "@/types/Reports.dto";
 
-
-
 export async function fetchReportsData(): Promise<CompareReportsResponse> {
   const res = await fetch(`${API_BASE}/reports`, {
     credentials: "include",

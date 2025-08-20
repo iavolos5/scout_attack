@@ -16,6 +16,8 @@ const pageTitles: Record<string, string> = {
   "/profile": "Профиль",
   "/emails": "E-mails",
   "/login": "Вход",
+  "/ssl": "SSL",
+  "/alike": "Домены",
 };
 
 const Headers: React.FC = () => {

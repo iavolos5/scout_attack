@@ -1,4 +1,4 @@
-.profile {
+.alikePage {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -10,15 +10,9 @@
     padding: 30px;
     margin: 0 auto;
     width: 1175px;
+
+    h2 {
+      margin-bottom: 20px;
+    }
   }
-}
-
-.container {
-  margin-top: 40px;
-  width: 100%;
-}
-
-.title {
-  text-align: center;
-  margin-bottom: 24px;
 }

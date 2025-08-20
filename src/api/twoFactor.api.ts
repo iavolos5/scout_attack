@@ -1,5 +1,5 @@
 import { API_BASE } from "@/app/constants";
-import { Setup2FAResponse, Confirm2FAResponse } from "@/types/twoFactor";
+import { Setup2FAResponse, Confirm2FAResponse } from "@/types/twoFactor.dto";
 
 export async function setup2FA(password: string): Promise<Setup2FAResponse> {
   const res = await fetch(`${API_BASE}/setup-2fa`, {
