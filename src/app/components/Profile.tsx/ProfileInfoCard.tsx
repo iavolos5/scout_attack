@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import { Card, Typography, Button, Space } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import Profile from "./Profile";
@@ -18,6 +18,8 @@ interface ProfileInfoCardProps {
     confirmPassword?: string;
   }) => void;
   loadingPassword: boolean;
+  showPasswordForm: boolean;
+  setShowPasswordForm: Dispatch<SetStateAction<boolean>>;
 }
 
 const ProfileInfoCard: React.FC<ProfileInfoCardProps> = ({
@@ -29,8 +31,9 @@ const ProfileInfoCard: React.FC<ProfileInfoCardProps> = ({
   onSetup2FA,
   onPasswordChange,
   loadingPassword,
+  showPasswordForm,
+  setShowPasswordForm,
 }) => {
-  const [showPasswordForm, setShowPasswordForm] = useState(false);
   return (
     <Card
       styles={{

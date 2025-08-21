@@ -7,12 +7,14 @@ import styles from "./ProfilePage.module.scss";
 import ProfileInfoCard from "../components/Profile.tsx/ProfileInfoCard";
 import { fetchProfileData } from "@/api/profile.api";
 import { ProfileData } from "@/types/profile.dto";
+import { changePassword } from "@/api/auth.api";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadingPassword, setLoadingPassword] = useState(false);
   const [twoFAOpen, setTwoFAOpen] = useState(false);
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
 
   const { message } = App.useApp();
 
@@ -38,8 +40,9 @@ export default function ProfilePage() {
   }) => {
     setLoadingPassword(true);
     try {
-      // await changePassword(values.currentPassword, values.newPassword);
+      await changePassword(values.currentPassword, values.newPassword);
       message.success("Пароль успешно изменён");
+      setShowPasswordForm(false)
     } catch (err) {
       message.error("Ошибка смены пароля");
     } finally {
@@ -101,6 +104,8 @@ export default function ProfilePage() {
           onSetup2FA={() => setTwoFAOpen(true)}
           onPasswordChange={onPasswordChange}
           loadingPassword={loadingPassword}
+          showPasswordForm={showPasswordForm}
+          setShowPasswordForm={setShowPasswordForm}
         />
         <Tabs
           defaultActiveKey="info"

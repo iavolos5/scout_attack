@@ -30,3 +30,26 @@ export async function verify2FA(code: string) {
   }
   return res.json();
 }
+
+export async function changePassword(
+  currentPassword: string,
+  newPassword: string
+) {
+  const res = await fetch(`${API_BASE}/change-password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      current_password: currentPassword,
+      new_password: newPassword,
+    }),
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error(`Ошибка авторизации: ${res?.status}`);
+  }
+
+  return res.json();
+}
