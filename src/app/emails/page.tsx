@@ -13,7 +13,6 @@ export default function EmailsPage() {
   const [loading, setLoading] = useState(true);
   const [filteredEmails, setFilteredEmails] = useState<EmailItem[]>([]);
   const [emailFilter, setEmailFilter] = useState("");
-  const [locFilter, setLocFilter] = useState("");
 
   useEffect(() => {
     const loadEmails = async () => {
@@ -37,13 +36,6 @@ export default function EmailsPage() {
         e.email.toLowerCase().includes(emailFilter.toLowerCase())
       );
     }
-    if (locFilter) {
-      result = result.filter((e) =>
-        e.search_locs.some((loc) =>
-          loc.loc_name.toLowerCase().includes(locFilter.toLowerCase())
-        )
-      );
-    }
     setFilteredEmails(result);
   };
 
@@ -55,7 +47,7 @@ export default function EmailsPage() {
     return () => {
       clearTimeout(handler);
     };
-  }, [emailFilter, locFilter, emails]);
+  }, [emailFilter, emails]);
 
   const columns = [
     {
