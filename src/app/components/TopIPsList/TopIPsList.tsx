@@ -6,12 +6,11 @@ type Props = {
   topIPs: TopIP[];
 };
 
-// Функция выбора цвета в зависимости от количества уязвимостей
-const getColor = (count: number): string => {
-  if (count >= 5) return "#dc3545"; // Красный для критичных значений
-  if (count >= 3) return "#e07b39"; // Оранжевый для высоких
-  if (count >= 1) return "#ffc107"; // Желтый для средних
-  return "#28a745"; // Зеленый для низких и 0
+// Цвета по категориям
+const COLORS: Record<string, string> = {
+  Critical: "#dc3545", // красный
+  Medium: "#ffc107", // желтый
+  Low: "#28a745", // зеленый
 };
 
 const TopIPsList: React.FC<Props> = ({ topIPs }) => {
@@ -19,22 +18,34 @@ const TopIPsList: React.FC<Props> = ({ topIPs }) => {
     <div>
       <h2>Топ IP по уязвимостям</h2>
       <div className={styles.card}>
-        {topIPs.map(({ ip, vulnerabilityCount }) => (
-          <div key={ip} className={styles.item}>
-            <span className={styles.ip}>{ip}</span>
-            <div className={styles.barWrapper}>
-              <div
-                className={styles.bar}
-                style={{
-                  width: `100%`,
-                  backgroundColor: getColor(vulnerabilityCount),
-                }}
-              >
-                {vulnerabilityCount}
+        {topIPs.map(({ ip, Critical, Medium, Low }) => {
+          const total = Number(Critical) + Number(Medium) + Number(Low) || 1; // чтобы не делить на 0
+
+          return (
+            <div key={ip} className={styles.item}>
+              <span className={styles.ip}>{ip}</span>
+              <div className={styles.barWrapper}>
+                {["Critical", "Medium", "Low"].map((level) => {
+                  const count = Number({ Critical, Medium, Low }[level]);
+                  if (count === 0) return null;
+                  const widthPercent = (count / total) * 100;
+                  return (
+                    <div
+                      key={level}
+                      className={styles.barSegment}
+                      style={{
+                        width: `${widthPercent}%`,
+                        backgroundColor: COLORS[level],
+                      }}
+                    >
+                      {count > 0 ? count : ""}
+                    </div>
+                  );
+                })}
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

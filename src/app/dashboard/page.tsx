@@ -41,9 +41,12 @@ export default function DashboardPage() {
     );
   }
   if (!data) return <div>Ошибка загрузки данных</div>;
+  const chartEntries = Object.entries(data.chartData).filter(
+    ([key]) => key !== "All"
+  );
 
-  const chartLabels = Object.keys(data.chartData.data);
-  const chartValues = Object.values(data.chartData.data).map(Number);
+  const chartLabels = chartEntries.map(([key]) => key);
+  const chartValues = chartEntries.map(([, value]) => Number(value));
 
   return (
     <div className={styles.dashboard}>
