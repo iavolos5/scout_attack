@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { CompareReportsResponse, Report } from "@/types/Reports.dto";
 import { Card, Table, Button, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
@@ -20,6 +21,8 @@ export default function PreviousScansCard({
   setSelectedReports,
   onCompare,
 }: Props) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const columns: ColumnsType<Report> = [
     {
       title: "Дата",
@@ -42,28 +45,39 @@ export default function PreviousScansCard({
 
   return (
     <Card className={styles.card}>
-      <Title level={4}>Прошлые сканирования</Title>
-      <Table
-        columns={columns}
-        dataSource={data.previous_reports || []} // если undefined — пустой массив
-        pagination={false}
-        rowKey="id"
-        rowClassName={(record) =>
-          selectedReports.includes(record.id) ? styles.selectedRow : ""
-        }
-        onRow={(record) => ({
-          onClick: () => handleRowClick(record.id),
-          style: { cursor: "pointer" },
-        })}
-      />
-      <Button
-        type="primary"
-        disabled={selectedReports.length !== 2}
-        onClick={() => onCompare(selectedReports[0], selectedReports[1])}
-        style={{ marginTop: "1rem" }}
-      >
-        Сравнить отчёты
-      </Button>
+      <div className={styles.header}>
+        <Title level={4} onClick={() => setIsExpanded(!isExpanded)}>
+          Прошлые сканирования{" "}
+          <span className={styles.arrow}>{isExpanded ? "▲" : "▼"}</span>
+        </Title>
+      </div>
+
+      {isExpanded && (
+        <>
+          <Table
+            columns={columns}
+            dataSource={data.previous_reports || []}
+            pagination={false}
+            rowKey="id"
+            rowClassName={(record) =>
+              selectedReports.includes(record.id) ? styles.selectedRow : ""
+            }
+            onRow={(record) => ({
+              onClick: () => handleRowClick(record.id),
+              style: { cursor: "pointer" },
+            })}
+          />
+
+          <Button
+            type="primary"
+            disabled={selectedReports.length !== 2}
+            onClick={() => onCompare(selectedReports[0], selectedReports[1])}
+            style={{ marginTop: "1rem" }}
+          >
+            Сравнить отчёты
+          </Button>
+        </>
+      )}
     </Card>
   );
 }

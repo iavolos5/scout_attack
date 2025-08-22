@@ -3,6 +3,22 @@
   flex-direction: column;
 }
 
+.card {
+  margin-bottom: 16px;
+}
+
 .selectedRow {
   background-color: #e6f7ff !important;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.arrow {
+  font-size: 14px;
+  user-select: none;
+  margin-left: 8px;
 }

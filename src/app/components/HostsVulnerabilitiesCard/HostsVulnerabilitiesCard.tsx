@@ -44,7 +44,7 @@ const HostVulnerabilitiesCard: React.FC<HostsVulnerabilitiesCardProps> = ({
                   onClick={() => toggleHost(host.IP)}
                   className={styles.hostTitle}
                 >
-                  {host.IP} — {host.Hostname} ({host.ConType}){" "}
+                  {host.IP} — {host.Hostname} ({host.ConType})
                   <span className={styles.arrow}>{isExpanded ? "▲" : "▼"}</span>
                 </Title>
 

@@ -14,7 +14,7 @@ const pageTitles: Record<string, string> = {
   "/dashboard": "Дашбоард",
   "/reports": "Отчёты",
   "/profile": "Профиль",
-  "/emails": "E-mails",
+  "/emails": "Emails",
   "/login": "Вход",
   "/ssl": "SSL",
   "/alike": "Домены",

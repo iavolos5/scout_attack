@@ -1,7 +1,6 @@
 import React, { type Dispatch, type SetStateAction } from "react";
 import { Card, Typography, Button, Space } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
-import Profile from "./Profile";
 
 const { Title, Text } = Typography;
 
@@ -12,14 +11,7 @@ interface ProfileInfoCardProps {
   must_change_password: boolean;
   twoFAEnabled: boolean;
   onSetup2FA?: () => void;
-  onPasswordChange: (values: {
-    currentPassword: string;
-    newPassword: string;
-    confirmPassword?: string;
-  }) => void;
-  loadingPassword: boolean;
-  showPasswordForm: boolean;
-  setShowPasswordForm: Dispatch<SetStateAction<boolean>>;
+  setShowPasswordModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const ProfileInfoCard: React.FC<ProfileInfoCardProps> = ({
@@ -29,10 +21,7 @@ const ProfileInfoCard: React.FC<ProfileInfoCardProps> = ({
   must_change_password,
   twoFAEnabled,
   onSetup2FA,
-  onPasswordChange,
-  loadingPassword,
-  showPasswordForm,
-  setShowPasswordForm,
+  setShowPasswordModal,
 }) => {
   return (
     <Card
@@ -68,7 +57,7 @@ const ProfileInfoCard: React.FC<ProfileInfoCardProps> = ({
         {twoFAEnabled ? (
           <Text type="success">
             <CheckCircleOutlined style={{ color: "#52c41a", marginRight: 8 }} />
-            Двухфакторная аутентификация включена
+            Установлена двухфакторная аутентификация
           </Text>
         ) : (
           onSetup2FA && (
@@ -78,20 +67,9 @@ const ProfileInfoCard: React.FC<ProfileInfoCardProps> = ({
           )
         )}
 
-        <Button
-          type="default"
-          onClick={() => setShowPasswordForm((prev) => !prev)}
-          block
-        >
+        <Button type="default" onClick={() => setShowPasswordModal(true)} block>
           Сменить пароль
         </Button>
-
-        {showPasswordForm && (
-          <Profile
-            loadingPassword={loadingPassword}
-            onPasswordChange={onPasswordChange}
-          />
-        )}
       </Space>
     </Card>
   );

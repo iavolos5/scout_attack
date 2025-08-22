@@ -28,6 +28,16 @@ export default function EmailsPage() {
     loadEmails();
   }, []);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      filterEmails();
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [emailFilter, emails]);
+
   // Фильтрация
   const filterEmails = () => {
     let result = emails;
@@ -38,16 +48,6 @@ export default function EmailsPage() {
     }
     setFilteredEmails(result);
   };
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      filterEmails();
-    }, 500);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [emailFilter, emails]);
 
   const columns = [
     {
@@ -65,7 +65,16 @@ export default function EmailsPage() {
       dataIndex: "search_locs",
       key: "search_locs",
       render: (locs: SearchLoc[]) =>
-        locs.map((loc) => <Tag key={loc.loc_name}>{loc.loc_name}</Tag>),
+        locs.map((loc) => (
+          <div key={loc.loc_name} style={{ marginBottom: 4 }}>
+            <Tag>{loc.loc_name}</Tag>
+            {loc.dates?.map((d, i) => (
+              <div key={i} style={{ fontSize: "12px", color: "#888" }}>
+                {d.date_from} — {d.date_to}
+              </div>
+            ))}
+          </div>
+        )),
     },
     {
       title: "Утечки",

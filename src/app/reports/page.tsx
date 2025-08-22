@@ -18,6 +18,7 @@ const { Title } = Typography;
 export default function ReportsPage() {
   const [data, setData] = useState<CompareReportsResponse | null>(null);
   const [selectedReports, setSelectedReports] = useState<number[]>([]);
+  const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
     loadReports();
@@ -43,8 +44,6 @@ export default function ReportsPage() {
       console.error(err);
     }
   }
-
-  const [downloading, setDownloading] = useState(false);
 
   const handleDownload = async () => {
     try {
@@ -85,18 +84,13 @@ export default function ReportsPage() {
       <section>
         <div className={styles.header}>
           <Title level={2}>Результаты сканирований</Title>
-          <div className={styles.header}>
-            <Button
-              type="primary"
-              icon={<DownloadOutlined />}
-              onClick={handleDownload}
-              disabled={downloading}
-            >
-              {downloading ? <Spin size="small" /> : "Скачать отчёт"}
-            </Button>
-          </div>
         </div>
-        <LastScanCard data={data} />
+        <LastScanCard
+          data={data}
+          downloading={downloading}
+          onDownload={handleDownload}
+        />
+
         <PreviousScansCard
           data={data}
           selectedReports={selectedReports}

@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Tabs, List, Spin, App } from "antd";
+import { Tabs, List, Spin, App, Modal } from "antd";
 import TwoFactorAuth from "../components/TwoFactorAuth/TwoFactorAuth";
 import styles from "./ProfilePage.module.scss";
 import ProfileInfoCard from "../components/Profile.tsx/ProfileInfoCard";
+import Profile from "../components/Profile.tsx/Profile";
 import { fetchProfileData } from "@/api/profile.api";
 import { ProfileData } from "@/types/profile.dto";
 import { changePassword } from "@/api/auth.api";
@@ -14,7 +15,7 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [loadingPassword, setLoadingPassword] = useState(false);
   const [twoFAOpen, setTwoFAOpen] = useState(false);
-  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   const { message } = App.useApp();
 
@@ -42,7 +43,7 @@ export default function ProfilePage() {
     try {
       await changePassword(values.currentPassword, values.newPassword);
       message.success("Пароль успешно изменён");
-      setShowPasswordForm(false)
+      setShowPasswordModal(false); // закрываем модалку
     } catch (err) {
       message.error("Ошибка смены пароля");
     } finally {
@@ -58,7 +59,6 @@ export default function ProfilePage() {
     return <div>Не удалось загрузить профиль</div>;
   }
 
-  // Создаём items для Tabs (новый синтаксис)
   const tabItems = [
     {
       key: "ips",
@@ -102,10 +102,7 @@ export default function ProfilePage() {
           must_change_password={profile.must_change_password}
           twoFAEnabled={profile["2fa_enabled"]}
           onSetup2FA={() => setTwoFAOpen(true)}
-          onPasswordChange={onPasswordChange}
-          loadingPassword={loadingPassword}
-          showPasswordForm={showPasswordForm}
-          setShowPasswordForm={setShowPasswordForm}
+          setShowPasswordModal={setShowPasswordModal}
         />
         <Tabs
           defaultActiveKey="info"
@@ -119,9 +116,23 @@ export default function ProfilePage() {
         onClose={() => setTwoFAOpen(false)}
         onSuccess={() => {
           message.success("2FA включена");
-          loadProfile(); // обновляем профиль
+          loadProfile();
         }}
       />
+
+      {/* Модалка для смены пароля */}
+      <Modal
+        title="Смена пароля"
+        open={showPasswordModal}
+        onCancel={() => setShowPasswordModal(false)}
+        footer={null}
+        destroyOnHidden
+      >
+        <Profile
+          loadingPassword={loadingPassword}
+          onPasswordChange={onPasswordChange}
+        />
+      </Modal>
     </div>
   );
 }
