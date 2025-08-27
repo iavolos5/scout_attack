@@ -15,6 +15,12 @@ Set-Cookie: token=abc123; Secure; HttpOnly; Path=/; SameSite=Lax
 💡 Вывод: да, ты можешь видеть токен в middleware при HTTPS, даже если кука Secure и HttpOnly.*/
 
 export default function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // если заходит на корень сайта
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
   // const { cookies } = request;
   // const token = cookies.get("token")?.value;
   // const { pathname } = new URL(request.url);

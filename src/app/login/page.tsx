@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Form, Input, Button, App, Spin } from "antd";
+import { Form, Input, Button, App, Spin, Tooltip } from "antd";
 import styles from "./LoginPage.module.scss";
 import { fetchLoginUser, verify2FA } from "@/api/auth.api";
 
@@ -11,11 +11,9 @@ export default function LoginPage() {
   const { message } = App.useApp();
 
   const [require2fa, setRequire2fa] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const onFinishLogin = async (values: { login: string; password: string }) => {
     try {
-      setLoading(true);
       const res = await fetchLoginUser(values.login, values.password);
 
       if (res.require2fa) {
@@ -23,8 +21,8 @@ export default function LoginPage() {
         message.info("Введите код двухфакторной аутентификации");
       } else if (res.success) {
         if (res.must_change_password) {
+          router.push("/profile", { scroll: false });
           message.warning("Необходимо сменить пароль");
-          router.push("/profile"); // или куда у тебя смена пароля
         } else {
           router.push("/dashboard");
         }
@@ -32,19 +30,16 @@ export default function LoginPage() {
     } catch (error) {
       message.error((error as Error).message || "Ошибка входа");
     } finally {
-      setLoading(false);
     }
   };
 
   const onFinish2FA = async (values: { code: string }) => {
     try {
-      setLoading(true);
       const res = await verify2FA(values.code);
 
       if (res.success) {
         if (res.must_change_password) {
           message.warning("Необходимо сменить пароль");
-          router.push("/profile");
         } else {
           message.success("Успешный вход");
           router.push("/dashboard");
@@ -54,21 +49,11 @@ export default function LoginPage() {
       }
     } catch (error) {
       message.error((error as Error).message || "Ошибка проверки 2FA");
-    } finally {
-      setLoading(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className={styles.dashboard}>
-        <Spin size="large" className={styles.spin} />
-      </div>
-    );
-  }
-
   return (
-    <div className={styles.container}>
+    <div className={styles.loginPage}>
       {!require2fa ? (
         <Form
           name="login"
@@ -93,10 +78,16 @@ export default function LoginPage() {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" block loading={loading}>
+            <Button type="primary" htmlType="submit" block>
               Войти
             </Button>
           </Form.Item>
+
+          <div className={styles.forgotWrapper}>
+            <Tooltip title="Обратитесь к вашему менеджеру для смены пароля">
+              <a className={styles.forgotLink}>Забыли пароль?</a>
+            </Tooltip>
+          </div>
 
           <div className={styles.footer}>&copy; Scout Attack</div>
         </Form>
@@ -119,7 +110,7 @@ export default function LoginPage() {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" block loading={loading}>
+            <Button type="primary" htmlType="submit" block>
               Подтвердить
             </Button>
           </Form.Item>

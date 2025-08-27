@@ -7,12 +7,16 @@ import { fetchEmails } from "@/api/emails.api";
 import { EmailItem, SearchLoc, Leak } from "@/types/emails.dto";
 
 const { Search } = Input;
+const { Option } = Select;
 
 export default function EmailsPage() {
   const [emails, setEmails] = useState<EmailItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [filteredEmails, setFilteredEmails] = useState<EmailItem[]>([]);
   const [emailFilter, setEmailFilter] = useState("");
+  const [compromisedFilter, setCompromisedFilter] = useState<
+    "all" | "yes" | "no"
+  >("all");
 
   useEffect(() => {
     const loadEmails = async () => {
@@ -36,16 +40,26 @@ export default function EmailsPage() {
     return () => {
       clearTimeout(handler);
     };
-  }, [emailFilter, emails]);
+  }, [emailFilter, emails, compromisedFilter]);
 
   // Фильтрация
   const filterEmails = () => {
     let result = emails;
+
+    // фильтр по email
     if (emailFilter) {
       result = result.filter((e) =>
         e.email.toLowerCase().includes(emailFilter.toLowerCase())
       );
     }
+
+    // фильтр по скомпрометированным
+    if (compromisedFilter === "yes") {
+      result = result.filter((e) => e.compromised_flg);
+    } else if (compromisedFilter === "no") {
+      result = result.filter((e) => !e.compromised_flg);
+    }
+
     setFilteredEmails(result);
   };
 
@@ -61,17 +75,18 @@ export default function EmailsPage() {
       ),
     },
     {
+      width: "350px",
       title: "Места обнаружения",
       dataIndex: "search_locs",
       key: "search_locs",
       render: (locs: SearchLoc[]) =>
         locs.map((loc) => (
-          <div key={loc.loc_name} style={{ marginBottom: 4 }}>
+          <div className={styles.loc_name} key={loc.loc_name}>
             <Tag>{loc.loc_name}</Tag>
             {loc.dates?.map((d, i) => (
-              <div key={i} style={{ fontSize: "12px", color: "#888" }}>
+              <span key={i} style={{ fontSize: "12px", color: "#888" }}>
                 {d.date_from} — {d.date_to}
-              </div>
+              </span>
             ))}
           </div>
         )),
@@ -99,6 +114,15 @@ export default function EmailsPage() {
             style={{ width: 300 }}
             allowClear
           />
+          <Select
+            value={compromisedFilter}
+            onChange={(v) => setCompromisedFilter(v)}
+            style={{ width: 250 }}
+          >
+            <Option value="all">Все</Option>
+            <Option value="yes">Только скомпрометированные</Option>
+            <Option value="no">Только не скомпрометированные</Option>
+          </Select>
         </div>
 
         <Table
