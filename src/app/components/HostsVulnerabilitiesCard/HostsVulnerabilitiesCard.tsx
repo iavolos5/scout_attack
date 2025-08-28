@@ -13,7 +13,6 @@ import {
 } from "@/types/Reports.dto";
 import { fetchVuln } from "@/api/vulners.api";
 
-
 const { Title } = Typography;
 
 interface HostsVulnerabilitiesCardProps {
@@ -100,6 +99,7 @@ const HostVulnerabilitiesCard: React.FC<HostsVulnerabilitiesCardProps> = ({
         width={400}
         onClose={closeDrawer}
         open={drawerVisible}
+        mask={false}
       >
         {loading ? (
           <Spin />
