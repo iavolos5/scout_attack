@@ -11,13 +11,13 @@ import {
   compareReports,
   downloadReport,
 } from "@/api/reports.api";
-import { DownloadOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 
 export default function ReportsPage() {
   const [data, setData] = useState<CompareReportsResponse | null>(null);
   const [selectedReports, setSelectedReports] = useState<number[]>([]);
+  const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
@@ -25,11 +25,15 @@ export default function ReportsPage() {
   }, []);
 
   async function loadReports() {
+    setLoading(true);
     try {
       const reportsData = await fetchReportsData();
       setData(reportsData);
     } catch (err) {
-      console.error(err);
+      console.error("Ошибка загрузки отчётов:", err);
+      message.error("Не удалось загрузить отчёты");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -38,46 +42,51 @@ export default function ReportsPage() {
     try {
       const result = await compareReports(firstId, secondId);
       setData((prev) =>
-        prev ? { ...prev, compare_reports: result.compare_reports } : prev
+        prev ? { ...prev, compare_reports: result.compare_reports ?? [] } : prev
       );
+      message.success("Отчёты успешно сравнены");
     } catch (err) {
-      console.error(err);
+      console.error("Ошибка сравнения отчётов:", err);
+      message.error("Не удалось сравнить отчёты");
     }
   }
 
   const handleDownload = async () => {
     try {
       setDownloading(true);
-
       const blob = await downloadReport();
 
-      // генерим имя файла
+      if (!blob.size) {
+        message.error("Отчёт пустой или недоступен");
+        return;
+      }
+
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "report.pdf"; // или имя с сервера
+      a.download = "report.pdf"; // можно использовать имя с сервера
       document.body.appendChild(a);
       a.click();
-      setTimeout(() => a.remove(), 0); // безопаснее
+      setTimeout(() => a.remove(), 0);
       window.URL.revokeObjectURL(url);
 
       message.success("Отчёт успешно скачан");
     } catch (err) {
-      console.error(err);
+      console.error("Ошибка при скачивании отчёта:", err);
       message.error("Ошибка при скачивании отчёта");
     } finally {
       setDownloading(false);
     }
   };
 
-  function getCritColor(level: string) {
-    const val = parseFloat(level);
-    if (val >= 7) return styles.critical;
-    if (val >= 3) return styles.medium;
-    return styles.low;
-  }
+  if (loading)
+    return (
+      <div className={styles.loading}>
+        <Spin tip="Загрузка отчётов..." size="large" />
+      </div>
+    );
 
-  if (!data) return <div>Загрузка...</div>;
+  if (!data) return <div>Нет данных для отображения</div>;
 
   return (
     <div className={styles.reports}>
@@ -85,6 +94,7 @@ export default function ReportsPage() {
         <div className={styles.header}>
           <Title level={2}>Результаты сканирований</Title>
         </div>
+
         <LastScanCard
           data={data}
           downloading={downloading}
@@ -95,9 +105,10 @@ export default function ReportsPage() {
           data={data}
           selectedReports={selectedReports}
           setSelectedReports={setSelectedReports}
-          onCompare={(firstId, secondId) => handleCompare(firstId, secondId)}
+          onCompare={handleCompare}
         />
-        <HostVulnerabilitiesCard data={data} getCritColor={getCritColor} />
+
+        <HostVulnerabilitiesCard data={data} />
       </section>
     </div>
   );

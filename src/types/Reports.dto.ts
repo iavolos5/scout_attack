@@ -13,6 +13,11 @@ export type HostCompare = {
   Hostname: string;
   ConType: string;
   Ports: Record<string, PortInfo>;
+  Subdomains?: Subdomain[]; // добавляем необязательное поле
+};
+export type Subdomain = {
+  Subdomain: string;
+  ConnType: string;
 };
 
 export type CompareReportsResponse = {
@@ -38,4 +43,13 @@ export type Vulnerability = {
   CritLevel: string;
   newFlag: boolean;
   oldFlag: boolean;
+  Description?: string;
+  References: string[];
+};
+
+export type VulnInfo = {
+  Name: string;
+  Description: string;
+  Severity: string;
+  References?: string[];
 };

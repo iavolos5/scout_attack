@@ -1,10 +1,9 @@
 import { PortInfo } from "@/types/Reports.dto";
 import { ColumnsType } from "antd/es/table";
 import styles from "./HostsVulnerabilitiesCard.module.scss";
+import { getCritColor } from "@/utils/getCritColor";
 
-export const getHostColumns = (
-  getCritColor: (level: string) => string
-): ColumnsType<PortInfo> => [
+export const getHostColumns = (): ColumnsType<PortInfo> => [
   { title: "Порт", dataIndex: "Port", key: "Port" },
   { title: "Сервис", dataIndex: "Service", key: "Service" },
   { title: "Версия", dataIndex: "Version", key: "Version" },
@@ -13,13 +12,14 @@ export const getHostColumns = (
     title: "Шифрование",
     key: "EncTypes",
     render: (_, record) => (
-      <div className="critContainer">
+      <div>
         {Object.values(record.EncTypes).map((enc) => (
           <span
             key={enc.Name}
-            className={`${getCritColor(enc.CritLevel)} ${styles.critContainer}`}
+            className={getCritColor(enc.CritLevel)}
+            style={{ marginLeft: "5px", fontWeight: "600" }}
           >
-            {enc.Name} ({enc.CritLevel})
+            {enc.Name}
           </span>
         ))}
       </div>
@@ -33,11 +33,10 @@ export const getHostColumns = (
         {Object.values(record.Vulnerabilities).map((vuln) => (
           <span
             key={vuln.Name}
-            className={`${getCritColor(vuln.CritLevel)} ${
-              styles.critContainer
-            }`}
+            className={getCritColor(vuln.CritLevel)}
+            style={{ marginLeft: "5px", fontWeight: "600" }}
           >
-            {vuln.Name} ({vuln.CritLevel})
+            {vuln.Name}
           </span>
         ))}
       </div>

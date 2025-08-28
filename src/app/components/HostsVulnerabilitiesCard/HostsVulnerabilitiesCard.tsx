@@ -13,12 +13,10 @@ const { Title } = Typography;
 
 interface HostsVulnerabilitiesCardProps {
   data: CompareReportsResponse;
-  getCritColor: (level: string) => string;
 }
 
 const HostVulnerabilitiesCard: React.FC<HostsVulnerabilitiesCardProps> = ({
   data,
-  getCritColor,
 }) => {
   // состояние раскрытых хостов
   const [expandedHosts, setExpandedHosts] = useState<Record<string, boolean>>(
@@ -58,7 +56,7 @@ const HostVulnerabilitiesCard: React.FC<HostsVulnerabilitiesCardProps> = ({
                     pagination={false}
                     rowKey={(row) => row.Port}
                     dataSource={Object.values(host.Ports)}
-                    columns={getHostColumns(getCritColor)}
+                    columns={getHostColumns()}
                   />
                 </div>
               </Card>

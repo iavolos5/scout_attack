@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Table, Spin } from "antd";
 import styles from "./AlikePage.module.scss";
-import { fetchAlike } from "@/api/alike";
+import { fetchAlike } from "@/api/alike.api";
 import { AlikeDomain } from "@/types/alike.dto";
 
 export default function AlikePage() {
