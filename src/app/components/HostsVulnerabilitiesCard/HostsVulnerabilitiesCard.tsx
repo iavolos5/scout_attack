@@ -10,6 +10,7 @@ import {
   CompareReportsResponse,
   HostCompare,
   PortInfo,
+  VulnDetail,
 } from "@/types/Reports.dto";
 import { fetchVuln } from "@/api/vulners.api";
 
@@ -17,15 +18,6 @@ const { Title } = Typography;
 
 interface HostsVulnerabilitiesCardProps {
   data: CompareReportsResponse;
-}
-
-interface VulnDetail {
-  name: string;
-  description: string;
-  cvss_score: string;
-  crit_level: string;
-  cvss_vector: string;
-  cvss_version: string;
 }
 
 const HostVulnerabilitiesCard: React.FC<HostsVulnerabilitiesCardProps> = ({

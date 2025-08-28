@@ -46,3 +46,12 @@ export type Vulnerability = {
   Description?: string;
   References: string[];
 };
+
+export interface VulnDetail {
+  name: string;
+  description: string;
+  cvss_score: string;
+  crit_level: string;
+  cvss_vector: string;
+  cvss_version: string;
+}
