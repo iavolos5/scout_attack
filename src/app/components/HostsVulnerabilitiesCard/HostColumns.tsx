@@ -1,9 +1,12 @@
+// HostColumns.ts
 import { PortInfo } from "@/types/Reports.dto";
 import { ColumnsType } from "antd/es/table";
 import styles from "./HostsVulnerabilitiesCard.module.scss";
 import { getCritColor } from "@/utils/getCritColor";
 
-export const getHostColumns = (): ColumnsType<PortInfo> => [
+export const getHostColumns = (
+  onVulnClick: (name: string) => void
+): ColumnsType<PortInfo> => [
   { title: "Порт", dataIndex: "Port", key: "Port" },
   { title: "Сервис", dataIndex: "Service", key: "Service" },
   { title: "Версия", dataIndex: "Version", key: "Version" },
@@ -34,7 +37,13 @@ export const getHostColumns = (): ColumnsType<PortInfo> => [
           <span
             key={vuln.Name}
             className={getCritColor(vuln.CritLevel)}
-            style={{ marginLeft: "5px", fontWeight: "600" }}
+            style={{
+              marginLeft: "5px",
+              fontWeight: "600",
+              cursor: "pointer",
+              textDecoration: "underline",
+            }}
+            onClick={() => onVulnClick(vuln.Name)}
           >
             {vuln.Name}
           </span>

@@ -1,9 +1,8 @@
 import { API_BASE } from "@/app/constants";
-import { VulnInfo } from "@/types/Reports.dto";
 
-export async function fetchVuln(name: string): Promise<VulnInfo> {
+export async function fetchVuln<T>(name: string): Promise<T> {
   const res = await fetch(
-    `${API_BASE}/vulners?Name=${encodeURIComponent(name)}`,
+    `${API_BASE}/vulner?name=${encodeURIComponent(name)}`,
     {
       method: "GET",
       credentials: "include",

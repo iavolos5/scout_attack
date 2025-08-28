@@ -46,10 +46,3 @@ export type Vulnerability = {
   Description?: string;
   References: string[];
 };
-
-export type VulnInfo = {
-  Name: string;
-  Description: string;
-  Severity: string;
-  References?: string[];
-};
