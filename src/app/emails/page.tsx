@@ -14,9 +14,9 @@ export default function EmailsPage() {
   const [loading, setLoading] = useState(true);
   const [filteredEmails, setFilteredEmails] = useState<EmailItem[]>([]);
   const [emailFilter, setEmailFilter] = useState("");
-  const [compromisedFilter, setCompromisedFilter] = useState<
-    "all" | "yes" | "no"
-  >("all");
+  const [compromisedFilter, setCompromisedFilter] = useState<"all" | "yes">(
+    "all"
+  );
 
   useEffect(() => {
     const loadEmails = async () => {
@@ -56,8 +56,6 @@ export default function EmailsPage() {
     // фильтр по скомпрометированным
     if (compromisedFilter === "yes") {
       result = result.filter((e) => e.compromised_flg);
-    } else if (compromisedFilter === "no") {
-      result = result.filter((e) => !e.compromised_flg);
     }
 
     setFilteredEmails(result);
@@ -96,7 +94,14 @@ export default function EmailsPage() {
       dataIndex: "leaks",
       key: "leaks",
       render: (leaks: Leak[]) =>
-        leaks.map((leak) => <Tag key={leak.leak_name}>{leak.leak_name}</Tag>),
+        leaks.map((leak) => (
+          <div className={styles.loc_name} key={leak.leak_name}>
+            <Tag>{leak.leak_name}</Tag>
+            <span style={{ fontSize: "12px", color: "#888" }}>
+              {leak.leak_date}
+            </span>
+          </div>
+        )),
     },
   ];
 
@@ -121,7 +126,6 @@ export default function EmailsPage() {
           >
             <Option value="all">Все</Option>
             <Option value="yes">Только скомпрометированные</Option>
-            <Option value="no">Только не скомпрометированные</Option>
           </Select>
         </div>
 
@@ -130,7 +134,6 @@ export default function EmailsPage() {
           columns={columns}
           rowKey="email"
           pagination={{ pageSize: 10 }}
-          style={{ marginTop: 20 }}
         />
       </section>
     </div>
