@@ -86,17 +86,19 @@ const HostVulnerabilitiesCard: React.FC<HostsVulnerabilitiesCardProps> = ({
       })}
 
       <Drawer
-        title={vulnData?.name || "Информация об уязвимости"}
-        placement="right"
+        title={"Информация об уязвимости"}
+        placement="left"
         width={400}
         onClose={closeDrawer}
         open={drawerVisible}
-        mask={false}
       >
         {loading ? (
           <Spin />
         ) : vulnData ? (
           <div>
+            <p>
+              <strong>Имя: </strong> {vulnData?.name}
+            </p>
             <p>
               <strong>Описание:</strong> {vulnData.description}
             </p>
