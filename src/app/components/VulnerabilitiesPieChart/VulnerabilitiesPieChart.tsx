@@ -79,7 +79,8 @@ const VulnerabilitiesPieChart: React.FC<VulnerabilitiesPieChartProps> = ({
           data={chartData}
           options={options}
           plugins={[centerTextPlugin]}
-          width={20}
+          width={100}
+          height={100}
         />
         <VulnerabilitiesBlock
           vulnerabilities={vulnerabilities as VulnerabilitiesData}
