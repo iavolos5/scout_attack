@@ -3,23 +3,24 @@ import React from "react";
 import { Doughnut, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import styles from "./VulnerabilitiesPieChart.module.scss";
+import { VulnerabilitiesData } from "@/types/dashboard.dto";
+import VulnerabilitiesBlock from "../VulnerabilitiesBlock/VulnerabilitiesBlock";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 type VulnerabilitiesPieChartProps = {
   labels: string[];
   data: number[];
+  vulnerabilities: VulnerabilitiesData;
 };
 
-const COLORS = ["#dc3545", "#ffc107", "#28a745"]; // красный, желтый, зеленый
+const COLORS = ["#dc3545", "#ffc107", "#28a745"];
 
 const VulnerabilitiesPieChart: React.FC<VulnerabilitiesPieChartProps> = ({
   labels,
   data,
+  vulnerabilities,
 }) => {
-  // console.log(labels);
-  // console.log(data);
-
   const chartData = {
     labels,
     datasets: [
@@ -37,12 +38,7 @@ const VulnerabilitiesPieChart: React.FC<VulnerabilitiesPieChartProps> = ({
     responsive: true,
     plugins: {
       legend: {
-        position: "right" as const,
-        labels: {
-          font: {
-            size: 14,
-          },
-        },
+        display: false,
       },
       tooltip: {
         callbacks: {
@@ -67,7 +63,7 @@ const VulnerabilitiesPieChart: React.FC<VulnerabilitiesPieChartProps> = ({
 
       const total = data.reduce((acc, val) => acc + val, 0);
       const text = total.toString();
-      const textX = Math.round((width - ctx.measureText(text).width) / 2) - 55;
+      const textX = Math.round((width - ctx.measureText(text).width) / 2);
       const textY = height / 2 - 10;
 
       ctx.fillText(text, textX, textY);
@@ -77,16 +73,19 @@ const VulnerabilitiesPieChart: React.FC<VulnerabilitiesPieChartProps> = ({
   };
 
   return (
-    <div>
-      <h2>Распределение по критичности</h2>
+    <>
       <div className={styles.card}>
         <Doughnut
           data={chartData}
           options={options}
           plugins={[centerTextPlugin]}
+          width={20}
+        />
+        <VulnerabilitiesBlock
+          vulnerabilities={vulnerabilities as VulnerabilitiesData}
         />
       </div>
-    </div>
+    </>
   );
 };
 

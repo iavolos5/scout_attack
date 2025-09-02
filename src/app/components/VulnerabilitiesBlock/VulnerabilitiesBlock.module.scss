@@ -1,70 +1,41 @@
-.vulnerabilities {
-  padding: 20px;
-  background: #fff;
-  border-radius: 10px;
-  min-width: 700px;
-  font-family: Arial, sans-serif;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+.items {
+  display: flex;
+  flex-direction: column;
+}
 
-  h2 {
-    margin-bottom: 16px;
-    color: #222;
+.item {
+  .count {
+    font-size: 26px;
+    font-weight: 800;
   }
 
-  .items {
-    display: flex;
-    gap: 24px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
+  .label {
+    font-weight: 600;
+    color: #444;
   }
 
-  .item {
-    flex: 1 1 120px;
-    text-align: center;
-
-    .count {
-      font-size: 36px;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-
-    .label {
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #444;
-    }
-
-    .delta {
-      font-size: 16px;
-      font-weight: 500;
-    }
+  .delta {
+    font-size: 16px;
+    font-weight: 500;
   }
+}
 
-  .critical {
-    color: #dc3545;
-  }
+.critical {
+  color: #dc3545;
+}
 
-  .medium {
-    color: #ffc107;
-  }
+.medium {
+  color: #ffc107;
+}
 
-  .low {
-    color: #28a745;
-  }
+.low {
+  color: #28a745;
+}
 
-  .deltaPositive {
-    color: #28a745;
-    font-weight: 700;
-  }
+.deltaPositive {
+  color: #28a745;
+}
 
-  .deltaNegative {
-    color: #dc3545;
-    font-weight: 700;
-  }
-
-  .lastScan {
-    font-size: 14px;
-    color: #666;
-    text-align: right;
-  }
+.deltaNegative {
+  color: #dc3545;
 }

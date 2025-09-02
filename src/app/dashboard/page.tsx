@@ -70,12 +70,14 @@ export default function DashboardPage() {
         <div className={styles.lastScan}>
           Последнее сканирование: {lastScanDate}
         </div>
-        <VulnerabilitiesBlock
-          vulnerabilities={vulnerabilities as VulnerabilitiesData}
-        />
 
         <div className={styles.flexRow}>
-          <VulnerabilitiesPieChart labels={chartLabels} data={chartValues} />
+          <VulnerabilitiesPieChart
+            labels={chartLabels}
+            data={chartValues}
+            vulnerabilities={vulnerabilities as VulnerabilitiesData}
+          />
+
           <TopIPsList topIPs={topIPs} />
         </div>
 

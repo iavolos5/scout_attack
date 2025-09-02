@@ -32,10 +32,9 @@ const VulnerabilitiesBlock: React.FC<Props> = ({ vulnerabilities }) => {
   );
   return (
     <div>
-      <section className={styles.vulnerabilities}>
-        <h3>Уязвимости</h3>
+      <div className={styles.vulnerabilities}>
         <div className={styles.items}>{vulnerabilityLevelsComponents}</div>
-      </section>
+      </div>
     </div>
   );
 };
