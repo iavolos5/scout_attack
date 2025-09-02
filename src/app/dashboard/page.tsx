@@ -9,8 +9,10 @@ import SSLCertCard from "../components/SSLCertCard/SSLCertCard";
 import AlikeDomainsCard from "../components/AlikeDomainsCard/AlikeDomainsCard";
 import styles from "./DashboardPage.module.scss";
 import { fetchDashboardData } from "@/api/dashboard.api";
-import { Spin } from "antd";
+import { Card, Spin, Typography } from "antd";
 import { VulnerabilitiesData, DashboardData } from "@/types/dashboard.dto";
+
+const { Title, Text } = Typography;
 
 function normalizeVulnerabilities(
   vulns: Partial<VulnerabilitiesData>
@@ -59,6 +61,7 @@ export default function DashboardPage() {
     totalIPsCount,
     vulnerableIPsCount,
     oldEncIPsCount,
+    companyName,
   } = data;
 
   const chartEntries = Object.entries(chartData).filter(
@@ -70,9 +73,12 @@ export default function DashboardPage() {
   return (
     <div className={styles.dashboard}>
       <section>
-        <div className={styles.lastScan}>
-          Последнее сканирование: {lastScanDate}
-        </div>
+        <Card className={styles.lastScan} bordered={false}>
+          <Title level={4}>Обзор безопасности системы</Title>
+          <Text strong>{companyName}</Text>
+          <br />
+          <Text type="secondary">Последнее сканирование: {lastScanDate}</Text>
+        </Card>
 
         <div className={styles.flexRow}>
           <VulnerabilitiesPieChart
