@@ -1,0 +1,14 @@
+/* src/components/EmailCard/EmailCard.module.scss */
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 320px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+  font-family: Arial, sans-serif;
+}
+.danger {
+  color: #dc3545;
+  margin-top: 8px;
+  font-weight: 600;
+}

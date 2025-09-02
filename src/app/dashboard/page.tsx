@@ -1,14 +1,17 @@
+// src/app/DashboardPage.tsx
 "use client";
 import { useEffect, useState } from "react";
 import TopIPsList from "../components/TopIPsList/TopIPsList";
 import VulnerabilitiesBlock from "../components/VulnerabilitiesBlock/VulnerabilitiesBlock";
 import VulnerabilitiesPieChart from "../components/VulnerabilitiesPieChart/VulnerabilitiesPieChart";
+import EmailCard from "../components/EmailCard/EmailCard";
+import SSLCertCard from "../components/SSLCertCard/SSLCertCard";
+import AlikeDomainsCard from "../components/AlikeDomainsCard/AlikeDomainsCard";
 import styles from "./DashboardPage.module.scss";
 import { fetchDashboardData } from "@/api/dashboard.api";
 import { Spin } from "antd";
 import { VulnerabilitiesData, DashboardData } from "@/types/dashboard.dto";
 
-// нормализация (подставляем дефолтные значения для отсутствующих полей)
 function normalizeVulnerabilities(
   vulns: Partial<VulnerabilitiesData>
 ): VulnerabilitiesData {
@@ -41,10 +44,24 @@ export default function DashboardPage() {
     );
   }
   if (!data) return <div>Ошибка загрузки данных</div>;
-  const chartEntries = Object.entries(data.chartData).filter(
+
+  const {
+    vulnerabilities,
+    lastScanDate,
+    chartData,
+    topIPs,
+    emailsCount,
+    compromisedEmailsCount,
+    sslCount,
+    foreignDomainsSSLCount,
+    expiredSSLCount,
+    expiringSSLCount,
+    alikeDomainsCount,
+  } = data;
+
+  const chartEntries = Object.entries(chartData).filter(
     ([key]) => key !== "All"
   );
-
   const chartLabels = chartEntries.map(([key]) => key);
   const chartValues = chartEntries.map(([, value]) => Number(value));
 
@@ -52,12 +69,24 @@ export default function DashboardPage() {
     <div className={styles.dashboard}>
       <section>
         <VulnerabilitiesBlock
-          vulnerabilities={data.vulnerabilities as VulnerabilitiesData}
-          lastScanDate={data.lastScanDate}
+          vulnerabilities={vulnerabilities as VulnerabilitiesData}
+          lastScanDate={lastScanDate}
         />
+
         <div className={styles.flexRow}>
           <VulnerabilitiesPieChart labels={chartLabels} data={chartValues} />
-          <TopIPsList topIPs={data.topIPs} />
+          <TopIPsList topIPs={topIPs} />
+        </div>
+
+        <div className={styles.flexRow}>
+          <EmailCard total={emailsCount} compromised={compromisedEmailsCount} />
+          <SSLCertCard
+            total={sslCount}
+            foreignDomains={foreignDomainsSSLCount}
+            expired={expiredSSLCount}
+            expiring={expiringSSLCount}
+          />
+          <AlikeDomainsCard total={alikeDomainsCount} />
         </div>
       </section>
     </div>
