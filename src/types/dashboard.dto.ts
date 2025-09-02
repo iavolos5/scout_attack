@@ -7,7 +7,6 @@ export type Vulnerability = {
 // Все категории уязвимостей
 export type VulnerabilitiesData = {
   critical: Vulnerability;
-  high: Vulnerability;
   medium: Vulnerability;
   low: Vulnerability;
 };

@@ -17,7 +17,6 @@ function normalizeVulnerabilities(
 ): VulnerabilitiesData {
   return {
     critical: vulns.critical ?? { count: 0, delta: "0" },
-    high: vulns.high ?? { count: 0, delta: "0" },
     medium: vulns.medium ?? { count: 0, delta: "0" },
     low: vulns.low ?? { count: 0, delta: "0" },
   };
@@ -68,9 +67,11 @@ export default function DashboardPage() {
   return (
     <div className={styles.dashboard}>
       <section>
+        <div className={styles.lastScan}>
+          Последнее сканирование: {lastScanDate}
+        </div>
         <VulnerabilitiesBlock
           vulnerabilities={vulnerabilities as VulnerabilitiesData}
-          lastScanDate={lastScanDate}
         />
 
         <div className={styles.flexRow}>
