@@ -56,6 +56,9 @@ export default function DashboardPage() {
     expiredSSLCount,
     expiringSSLCount,
     alikeDomainsCount,
+    totalIPsCount,
+    vulnerableIPsCount,
+    oldEncIPsCount,
   } = data;
 
   const chartEntries = Object.entries(chartData).filter(
@@ -78,7 +81,12 @@ export default function DashboardPage() {
             vulnerabilities={vulnerabilities as VulnerabilitiesData}
           />
 
-          <TopIPsList topIPs={topIPs} />
+          <TopIPsList
+            topIPs={topIPs}
+            totalIPsCount={totalIPsCount}
+            vulnerableIPsCount={vulnerableIPsCount}
+            oldEncIPsCount={oldEncIPsCount}
+          />
         </div>
 
         <div className={styles.flexRow}>

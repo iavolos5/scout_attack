@@ -1,29 +1,26 @@
+import { VULN_LEVELS } from "@/app/constants";
+
+export type VulnLevel = (typeof VULN_LEVELS)[number];
+
 // Одна категория уязвимостей
 export type Vulnerability = {
   count: number;
   delta: string;
 };
 
-// Все категории уязвимостей
-export type VulnerabilitiesData = {
-  critical: Vulnerability;
-  medium: Vulnerability;
-  low: Vulnerability;
-};
+// Все категории уязвимостей (lowercase ключи)
+export type VulnerabilitiesData = Record<Lowercase<VulnLevel>, Vulnerability>;
 
-// Топ IP с детализацией по уровням
+// Топ IP с детализацией по уровням (uppercase ключи)
 export type TopIP = {
   ip: string;
   vulnerabilityCount: number;
-  Critical: string;
-  Medium: string;
-  Low: string;
-};
+} & Record<VulnLevel, string>;
 
 // Общий ответ дашбоарда
 export interface DashboardData {
-  companyName: string; // название компании
-  lastScanDate: string; // дата последнего сканирования
+  companyName: string;
+  lastScanDate: string;
 
   // Метрики
   alikeDomainsCount: number;
@@ -40,5 +37,5 @@ export interface DashboardData {
   // Основные данные
   topIPs: TopIP[];
   vulnerabilities: Partial<VulnerabilitiesData>; // может прийти не всё
-  chartData: Record<string, string>; // { "Critical": "23", ... }
+  chartData: Record<VulnLevel, string>;
 }
