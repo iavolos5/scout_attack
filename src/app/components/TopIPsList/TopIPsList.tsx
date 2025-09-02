@@ -25,9 +25,14 @@ const TopIPsList: React.FC<Props> = ({
   vulnerableIPsCount,
   oldEncIPsCount,
 }) => {
+  // ищем максимум по всем IP
+  const maxVulnCount = Math.max(
+    ...topIPs.map((ip) => Number(ip.vulnerabilityCount ?? 0)),
+    1 // защита от деления на 0
+  );
+
   const topIP = topIPs.map((item) => {
-    const total =
-      LEVELS.reduce((sum, lvl) => sum + Number(item[lvl] ?? 0), 0) || 1;
+    const total = Number(item.vulnerabilityCount ?? 0) || 1;
 
     return (
       <div key={item.ip} className={styles.item}>
@@ -38,7 +43,8 @@ const TopIPsList: React.FC<Props> = ({
             const count = Number(item[lvl] ?? 0);
             if (!count) return null;
 
-            const width = (count / total) * 100;
+            // считаем ширину относительно maxVulnCount
+            const width = (count / maxVulnCount) * 100;
 
             return (
               <div
@@ -73,7 +79,8 @@ const TopIPsList: React.FC<Props> = ({
         </div>
         <div className={styles.oldEnc}>
           <strong>{oldEncIPsCount}</strong>
-          <br /> Устаревшее шифрование
+          <br />
+          Устаревшее шифрование
         </div>
       </div>
 
