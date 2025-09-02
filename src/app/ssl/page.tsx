@@ -6,7 +6,7 @@ import styles from "./SslPage.module.scss";
 import { SslCert } from "@/types/ssl.dto";
 import { fetchSsl } from "@/api/ssl.api";
 
-type FilterType = "expired" | "active" | "expiring" | null;
+type FilterType = "expired" | "active" | "expiring" | "foreign" | null;
 
 // Функция для парсинга даты из формата "ДД.ММ.ГГГГ"
 function parseDateDMY(str: string): Date {
@@ -43,6 +43,7 @@ export default function SslPage() {
     if (filter === "expired") return validTo < now;
     if (filter === "active") return validTo > now;
     if (filter === "expiring") return validTo > now && diffDays <= 30;
+    if (filter === "foreign") return cert.has_foreign_domains === true;
     return true;
   });
 
@@ -89,8 +90,15 @@ export default function SslPage() {
       title: "DNS-имена",
       dataIndex: "dns_names",
       key: "dns_names",
-      render: (dns: string) =>
-        dns.split(",").map((d) => <div key={d}>{d}</div>),
+      render: (dns: string, record: SslCert) =>
+        dns.split(",").map((d) => (
+          <div
+            key={d}
+            style={{ color: record.has_foreign_domains ? "red" : "inherit" }}
+          >
+            {d}
+          </div>
+        )),
     },
   ];
 
@@ -121,6 +129,12 @@ export default function SslPage() {
             }
           >
             Скоро истекут
+          </Checkbox>
+          <Checkbox
+            checked={filter === "foreign"}
+            onChange={() => setFilter(filter === "foreign" ? null : "foreign")}
+          >
+            Посторонние домены
           </Checkbox>
         </div>
 

@@ -5,4 +5,5 @@ export interface SslCert {
   valid_to: string;
   theme: string;
   dns_names: string;
+  has_foreign_domains: boolean;
 }
