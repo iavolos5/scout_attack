@@ -11,6 +11,7 @@ import {
   HostCompare,
   PortInfo,
   VulnDetail,
+  Subdomain, // <- убедись, что тип есть в Reports.dto
 } from "@/types/Reports.dto";
 import { fetchVuln } from "@/api/vulners.api";
 
@@ -53,6 +54,25 @@ const HostVulnerabilitiesCard: React.FC<HostsVulnerabilitiesCardProps> = ({
     setVulnData(null);
   };
 
+  // колонки поддоменов
+  const subdomainColumns = [
+    {
+      title: "Поддомен",
+      dataIndex: "Subdomain",
+      key: "Subdomain",
+      render: (text: string, rec: Subdomain) => (
+        <span className={styles.subdomain}>{text}</span>
+      ),
+    },
+    {
+      title: "Тип связи",
+      dataIndex: "ConnType",
+      key: "ConnType",
+      render: (text: string) => <span className={styles.connType}>{text}</span>,
+      width: 160,
+    },
+  ];
+
   return (
     <Card className={styles.card}>
       <Title level={4}>Уязвимости по хостам</Title>
@@ -67,19 +87,44 @@ const HostVulnerabilitiesCard: React.FC<HostsVulnerabilitiesCardProps> = ({
               onClick={() => toggleHost(host.IP)}
               className={styles.hostTitle}
             >
-              {host.IP} — {host.Hostname} ({host.ConType})
+              {host.IP} — {host.Hostname}{" "}
+              {host.ConType ? `(${host.ConType})` : ""}
               <span className={styles.arrow}>{isExpanded ? "▲" : "▼"}</span>
             </Title>
 
             <div
               className={isExpanded ? styles.tableWrapper : styles.tableHidden}
             >
-              <Table<PortInfo>
-                pagination={false}
-                rowKey={(row) => row.Port}
-                dataSource={Object.values(host.Ports)}
-                columns={getHostColumns(openVulnDrawer)}
-              />
+              <div className={styles.hostContent}>
+                {/* Левая колонка — Поддомены */}
+                <Card
+                  size="small"
+                  className={styles.subdomainsCard}
+                  title={
+                    <span className={styles.subdomainsTitle}>Поддомены</span>
+                  }
+                  bordered={false}
+                >
+                  <Table<Subdomain>
+                    size="small"
+                    pagination={false}
+                    rowKey={(row) => row.Subdomain}
+                    dataSource={host.Subdomains ?? []}
+                    columns={subdomainColumns}
+                    locale={{ emptyText: "Нет поддоменов" }}
+                  />
+                </Card>
+
+                {/* Правая колонка — Порты/уязвимости */}
+                <Table<PortInfo>
+                  className={styles.portsTable}
+                  size="middle"
+                  pagination={false}
+                  rowKey={(row) => row.Port}
+                  dataSource={Object.values(host.Ports)}
+                  columns={getHostColumns(openVulnDrawer)}
+                />
+              </div>
             </div>
           </Card>
         );
@@ -88,7 +133,7 @@ const HostVulnerabilitiesCard: React.FC<HostsVulnerabilitiesCardProps> = ({
       <Drawer
         title={"Информация об уязвимости"}
         placement="left"
-        width={400}
+        width={420}
         onClose={closeDrawer}
         open={drawerVisible}
       >
@@ -97,7 +142,8 @@ const HostVulnerabilitiesCard: React.FC<HostsVulnerabilitiesCardProps> = ({
         ) : vulnData ? (
           <div>
             <p>
-              <strong>Имя: </strong> {vulnData?.name}
+              <strong>Имя: </strong>
+              {vulnData.name}
             </p>
             <p>
               <strong>Описание:</strong> {vulnData.description}

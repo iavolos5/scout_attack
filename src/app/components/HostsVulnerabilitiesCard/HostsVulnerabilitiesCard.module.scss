@@ -1,7 +1,6 @@
 .hostTitle {
   cursor: pointer;
 }
-
 .arrow {
   margin-left: 0.5rem;
 }
@@ -9,24 +8,45 @@
 .tableWrapper {
   margin-top: 1rem;
 }
-
 .tableHidden {
   display: none;
 }
 
-.critContainer {
-  margin-bottom: 2px;
+.hostCard {
+  margin-top: 15px;
 }
 
+.hostContent {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  column-gap: 5px;
+}
+
+.subdomainsCard {
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.05);
+  border-radius: 10px;
+}
+
+.subdomainsTitle {
+  font-weight: 700;
+}
+
+.subdomain {
+  font-weight: 600;
+  color: #222;
+}
+
+.connType {
+  color: #888;
+  font-size: 12px;
+}
 
 .critical {
-  color: #d32f2f; // красный текст
+  color: #d32f2f;
 }
-
 .medium {
-  color: #f57c00; // оранжевый
+  color: #f57c00;
 }
-
 .low {
-  color: #388e3c; // зелёный
+  color: #388e3c;
 }
