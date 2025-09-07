@@ -25,4 +25,11 @@
   font-size: 14px;
   user-select: none;
   margin-left: 8px;
+  color: #1890ff;
+  font-weight: normal;
+  
+  &:hover {
+    color: #40a9ff;
+    text-decoration: underline;
+  }
 }

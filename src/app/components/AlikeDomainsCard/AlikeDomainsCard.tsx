@@ -9,7 +9,7 @@ type Props = {
 const AlikeDomainsCard: React.FC<Props> = ({ total }) => {
   return (
     <div className={styles.card}>
-      <h3>Схожих доменов</h3>
+      <h2>Схожих доменов</h2>
       Обнаружено: <b>{total}</b>
     </div>
   );

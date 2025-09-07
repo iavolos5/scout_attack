@@ -29,7 +29,7 @@ const VulnerabilitiesPieChart: React.FC<VulnerabilitiesPieChartProps> = ({
         backgroundColor: COLORS,
         borderWidth: 1,
         borderColor: "#fff",
-        hoverOffset: 20,
+        hoverOffset: 10,
       },
     ],
   };
@@ -67,26 +67,27 @@ const VulnerabilitiesPieChart: React.FC<VulnerabilitiesPieChartProps> = ({
       const textY = height / 2 - 10;
 
       ctx.fillText(text, textX, textY);
-      ctx.fillText("Всего", textX - 20, textY + 20);
+      ctx.fillText("всего", textX - 20, textY + 20);
       ctx.save();
     },
   };
 
   return (
-    <>
-      <div className={styles.card}>
-        <Doughnut
-          data={chartData}
-          options={options}
-          plugins={[centerTextPlugin]}
-          width={100}
-          height={100}
-        />
+    <div className={styles.card}>
+      <h2>Уязвимости</h2>
+      <div className={styles.content}>
+        <div className={styles.chartContainer}>
+          <Doughnut
+            data={chartData}
+            options={options}
+            plugins={[centerTextPlugin]}
+          />
+        </div>
         <VulnerabilitiesBlock
           vulnerabilities={vulnerabilities as VulnerabilitiesData}
         />
       </div>
-    </>
+    </div>
   );
 };
 

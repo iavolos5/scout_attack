@@ -45,10 +45,10 @@ export default function PreviousScansCard({
 
   return (
     <Card className={styles.card}>
-      <div className={styles.header}>
-        <Title level={4} onClick={() => setIsExpanded(!isExpanded)}>
+      <div className={styles.header} onClick={() => setIsExpanded(!isExpanded)}>
+        <Title level={4}>
           Прошлые сканирования
-          <span className={styles.arrow}>{isExpanded ? "▲" : "▼"}</span>
+          <span className={styles.arrow}>{isExpanded ? "скрыть" : "показать"}</span>
         </Title>
       </div>
 

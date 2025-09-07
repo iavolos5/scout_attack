@@ -74,10 +74,10 @@ export default function DashboardPage() {
     <div className={styles.dashboard}>
       <section>
         <Card className={styles.lastScan} bordered={false}>
-          <Title level={4}>Обзор безопасности системы</Title>
+          <Title level={3}>Обзор безопасности системы</Title>
           <Text strong>{companyName}</Text>
           <br />
-          <Text type="secondary">Последнее сканирование: {lastScanDate}</Text>
+          <Text >Последнее сканирование: {lastScanDate}</Text>
         </Card>
 
         <div className={styles.flexRow}>

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Form, Input, Button, App, Spin, Tooltip } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import styles from "./LoginPage.module.scss";
 import { fetchLoginUser, verify2FA } from "@/api/auth.api";
 
@@ -54,43 +55,59 @@ export default function LoginPage() {
 
   return (
     <div className={styles.loginPage}>
+      <div className={styles.logo}>
+        <span className={styles.logoText}>W</span>
+        <span className={styles.logoText}>Y</span>
+        <span className={styles.logoText}>S</span>
+      </div>
+      
       {!require2fa ? (
-        <Form
-          name="login"
-          onFinish={onFinishLogin}
-          layout="vertical"
-          className={styles.form}
-        >
-          <Form.Item
-            label="Логин"
+        <div className={styles.loginCard}>
+          <h2 className={styles.title}>Вход в систему</h2>
+          
+          <Form
             name="login"
-            rules={[{ required: true, message: "Введите логин" }]}
+            onFinish={onFinishLogin}
+            layout="vertical"
+            className={styles.form}
           >
-            <Input placeholder="Введите логин" />
-          </Form.Item>
+            <Form.Item
+              label="Имя пользователя"
+              name="login"
+              rules={[{ required: true, message: "Введите логин" }]}
+            >
+              <Input 
+                prefix={<UserOutlined />}
+                placeholder="Введите имя пользователя" 
+                className={styles.input}
+              />
+            </Form.Item>
 
-          <Form.Item
-            label="Пароль"
-            name="password"
-            rules={[{ required: true, message: "Введите пароль" }]}
-          >
-            <Input.Password placeholder="Введите пароль" />
-          </Form.Item>
+            <Form.Item
+              label="Пароль"
+              name="password"
+              rules={[{ required: true, message: "Введите пароль" }]}
+            >
+              <Input.Password 
+                prefix={<LockOutlined />}
+                placeholder="Введите пароль" 
+                className={styles.input}
+              />
+            </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit" block>
-              Войти
-            </Button>
-          </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" block className={styles.loginButton}>
+                Войти
+              </Button>
+            </Form.Item>
 
-          <div className={styles.forgotWrapper}>
-            <Tooltip title="Обратитесь к вашему менеджеру для смены пароля">
-              <a className={styles.forgotLink}>Забыли пароль?</a>
-            </Tooltip>
-          </div>
-
-          <div className={styles.footer}>&copy; Scout Attack</div>
-        </Form>
+            <div className={styles.forgotWrapper}>
+              <Tooltip title="Обратитесь к вашему менеджеру для смены пароля">
+                <a className={styles.forgotLink}>Забыли пароль?</a>
+              </Tooltip>
+            </div>
+          </Form>
+        </div>
       ) : (
         <Form
           name="2fa"

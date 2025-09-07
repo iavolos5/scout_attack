@@ -87,35 +87,22 @@ const HostVulnerabilitiesCard: React.FC<HostsVulnerabilitiesCardProps> = ({
               onClick={() => toggleHost(host.IP)}
               className={styles.hostTitle}
             >
-              {host.IP} — {host.Hostname}{" "}
+              {host.IP}  {host.Hostname}{" "}
               {host.ConType ? `(${host.ConType})` : ""}
-              <span className={styles.arrow}>{isExpanded ? "▲" : "▼"}</span>
+              <br/>
+              Порты: {Object.keys(host.Ports).length} | 
+              Уязвимости: {Object.values(host.Ports).reduce(
+                (total, port) => total + Object.keys(port.Vulnerabilities).length,
+                0
+              )} | 
+              Поддомены: {host.Subdomains?.length || 0}
+              <span className={styles.show}>{isExpanded ? "скрыть" : "показать"}</span>
             </Title>
 
             <div
               className={isExpanded ? styles.tableWrapper : styles.tableHidden}
             >
               <div className={styles.hostContent}>
-                {/* Левая колонка — Поддомены */}
-                <Card
-                  size="small"
-                  className={styles.subdomainsCard}
-                  title={
-                    <span className={styles.subdomainsTitle}>Поддомены</span>
-                  }
-                  bordered={false}
-                >
-                  <Table<Subdomain>
-                    size="small"
-                    pagination={false}
-                    rowKey={(row) => row.Subdomain}
-                    dataSource={host.Subdomains ?? []}
-                    columns={subdomainColumns}
-                    locale={{ emptyText: "Нет поддоменов" }}
-                  />
-                </Card>
-
-                {/* Правая колонка — Порты/уязвимости */}
                 <Table<PortInfo>
                   className={styles.portsTable}
                   size="middle"
@@ -123,7 +110,23 @@ const HostVulnerabilitiesCard: React.FC<HostsVulnerabilitiesCardProps> = ({
                   rowKey={(row) => row.Port}
                   dataSource={Object.values(host.Ports)}
                   columns={getHostColumns(openVulnDrawer)}
+                  
                 />
+                {/* Левая колонка — Поддомены */}
+                
+                  <Table<Subdomain>
+                    size="middle"
+                    pagination={false}
+                    rowKey={(row) => row.Subdomain}
+                    dataSource={host.Subdomains ?? []}
+                    columns={subdomainColumns}
+                    locale={{ emptyText: "Нет поддоменов" }}
+                    bordered={true}
+                  />
+                
+
+                {/* Правая колонка — Порты/уязвимости */}
+                
               </div>
             </div>
           </Card>
