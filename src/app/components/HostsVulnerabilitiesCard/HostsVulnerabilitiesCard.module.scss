@@ -1,8 +1,16 @@
 .hostTitle {
   cursor: pointer;
 }
-.arrow {
+.show {
   margin-left: 0.5rem;
+  color: #1890ff;
+  font-weight: normal;
+  font-size: 14px;
+  
+  &:hover {
+    color: #40a9ff;
+    text-decoration: underline;
+  }
 }
 
 .tableWrapper {
@@ -18,7 +26,7 @@
 
 .hostContent {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 760px 1fr;
   column-gap: 5px;
 }
 
@@ -49,4 +57,10 @@
 }
 .low {
   color: #388e3c;
+}
+
+.clickableItem {
+  &:hover {
+    text-decoration: underline;
+  }
 }

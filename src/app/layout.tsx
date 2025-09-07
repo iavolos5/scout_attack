@@ -1,6 +1,6 @@
 import "antd/dist/reset.css"; // для antd v5+ (если v4 — 'antd/dist/antd.css')
 import "./globals.css";
-import Headers from "./components/Headers/Headers";
+import LayoutWrapper from "./components/LayoutWrapper";
 import { App } from "antd";
 
 export default function RootLayout({
@@ -11,8 +11,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Headers />
-        <App>{children}</App>
+        <App>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </App>
       </body>
     </html>
   );

@@ -63,10 +63,10 @@ const TopIPsList: React.FC<Props> = ({
 
   return (
     <div className={styles.card}>
-      <h2>Сводка по IP адресам</h2>
+      <h2>IP-адреса</h2>
 
       <div className={styles.summary}>
-        <div>
+        <div className={styles.total}>
           <strong>{totalIPsCount}</strong>
           <br />
           Найдено
@@ -80,10 +80,12 @@ const TopIPsList: React.FC<Props> = ({
         <div className={styles.oldEnc}>
           <strong>{oldEncIPsCount}</strong>
           <br />
-          Устаревшее шифрование
+          С устаревшим
+          <br />
+          шифрованием
         </div>
       </div>
-
+      <h3>IP-адреса с наибольшим количеством уязвимостей</h3>
       {topIP}
     </div>
   );

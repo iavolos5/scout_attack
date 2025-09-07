@@ -91,10 +91,6 @@ export default function ReportsPage() {
   return (
     <div className={styles.reports}>
       <section>
-        <div className={styles.header}>
-          <Title level={2}>Результаты сканирований</Title>
-        </div>
-
         <LastScanCard
           data={data}
           downloading={downloading}

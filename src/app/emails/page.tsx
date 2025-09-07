@@ -1,22 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Table, Input, Tag, Spin, Select, message } from "antd";
+import { Table, Input, Tag, Spin, Checkbox, message } from "antd";
 import styles from "./EmailsPage.module.scss";
 import { fetchEmails } from "@/api/emails.api";
 import { EmailItem, SearchLoc, Leak } from "@/types/emails.dto";
 
 const { Search } = Input;
-const { Option } = Select;
 
 export default function EmailsPage() {
   const [emails, setEmails] = useState<EmailItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [filteredEmails, setFilteredEmails] = useState<EmailItem[]>([]);
   const [emailFilter, setEmailFilter] = useState("");
-  const [compromisedFilter, setCompromisedFilter] = useState<"all" | "yes">(
-    "all"
-  );
+  const [compromisedFilter, setCompromisedFilter] = useState(false);
 
   useEffect(() => {
     const loadEmails = async () => {
@@ -54,7 +51,7 @@ export default function EmailsPage() {
     }
 
     // фильтр по скомпрометированным
-    if (compromisedFilter === "yes") {
+    if (compromisedFilter) {
       result = result.filter((e) => e.compromised_flg);
     }
 
@@ -119,14 +116,12 @@ export default function EmailsPage() {
             style={{ width: 300 }}
             allowClear
           />
-          <Select
-            value={compromisedFilter}
-            onChange={(v) => setCompromisedFilter(v)}
-            style={{ width: 250 }}
+          <Checkbox
+            checked={compromisedFilter}
+            onChange={(e) => setCompromisedFilter(e.target.checked)}
           >
-            <Option value="all">Все</Option>
-            <Option value="yes">Только скомпрометированные</Option>
-          </Select>
+            Скомпрометированные
+          </Checkbox>
         </div>
 
         <Table

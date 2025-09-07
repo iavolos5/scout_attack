@@ -17,7 +17,7 @@ const SSLCertCard: React.FC<Props> = ({
 }) => {
   return (
     <div className={styles.card}>
-      <h3>SSL - сертификаты</h3>
+      <h2>SSL-сертификаты</h2>
       Обнаружено: <b>{total}</b>
       <div className={styles.danger}>
         C посторонними доменами: <b>{foreignDomains}</b>

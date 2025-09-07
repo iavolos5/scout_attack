@@ -18,7 +18,7 @@ const LastScanCard: React.FC<LastScanCardProps> = ({
   return (
     <Card className={styles.card}>
       <div className={styles.header}>
-        <Title level={4}>Последнее сканирование</Title>
+        <Title level={4}>Последнее сканирование: {data.last_report.created}</Title>
         <Button
           type="primary"
           icon={<DownloadOutlined />}
@@ -28,8 +28,6 @@ const LastScanCard: React.FC<LastScanCardProps> = ({
           {downloading ? <Spin size="small" /> : "Скачать отчёт"}
         </Button>
       </div>
-
-      <div>{data.last_report.created}</div>
     </Card>
   );
 };

@@ -10,7 +10,7 @@ type Props = {
 const EmailCard: React.FC<Props> = ({ total, compromised }) => {
   return (
     <div className={styles.card}>
-      <h3>Email</h3>
+      <h2>Email</h2>
       Обнаружено: <b>{total}</b>
       <div className={styles.danger}>
         Скомпрометировано: <b>{compromised}</b>
